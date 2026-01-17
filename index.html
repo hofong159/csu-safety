@@ -321,8 +321,12 @@
             <h1 data-zh="正修科技大學<br>災難應變資訊網" data-en="CSU Disaster Response Network">正修科技大學<br>災難應變資訊網</h1>
             <h2 data-zh="應急避難指南" data-en="Emergency Guide">應急避難指南</h2>
             <div class="intro-box">
-                <p>近年來，極端氣候事件在台灣愈加頻繁，強降雨、淹水、颱風與地震都可能在短時間內造成校園內外的環境破壞與學生安全風險。</p>
-                <p>在過去幾次災害中，我們調查到校園雖具備基本的應變流程，實際狀況有待改進。於是做此調查，作為給學校建議，與正確逃生之學習。</p>
+                <p data-zh="近年來，極端氣候事件在台灣愈加頻繁，強降雨、淹水、颱風與地震都可能在短時間內造成校園內外的環境破壞與學生安全風險。" data-en="In recent years, extreme weather events have become frequent in Taiwan. Heavy rains, floods, and earthquakes can pose safety risks to the campus within a short period.">
+                    近年來，極端氣候事件在台灣愈加頻繁，強降雨、淹水、颱風與地震都可能在短時間內造成校園內外的環境破壞與學生安全風險。
+                </p>
+                <p data-zh="在過去幾次災害中，我們調查到校園雖具備基本的應變流程，實際狀況有待改進。於是做此調查，作為給學校建議，與正確逃生之學習。" data-en="Through our surveys, we identified areas for improvement in campus disaster response. This project aims to provide recommendations and survival guidance.">
+                    在過去幾次災害中，我們調查到校園雖具備基本的應變流程，實際狀況有待改進。於是做此調查，作為給學校建議，與正確逃生之學習。
+                </p>
             </div>
             <a onclick="showPage('map')" class="cta-btn" data-zh="立即查看風險地圖" data-en="View Risk Map">立即查看風險地圖 <i class="fas fa-arrow-right"></i></a>
         </div>
@@ -332,54 +336,54 @@
         <h2 style="text-align: center; margin-bottom: 20px; font-size: 2rem; color: var(--primary);">
             <i class="fas fa-bullhorn"></i> <span data-zh="校園災害即時回報" data-en="Campus Disaster Reporting">校園災害即時回報</span>
         </h2>
-        <p style="text-align: center; margin-bottom: 40px;">若您發現校園內有積水、路面損壞或其他危險情況，請立即填寫下方表單回報。</p>
+        <p style="text-align: center; margin-bottom: 40px;" data-zh="若您發現校園內有積水、路面損壞或其他危險情況，請立即填寫下方表單回報。" data-en="If you spot flooding, road damage, or other hazards, please fill out the form below to report immediately.">若您發現校園內有積水、路面損壞或其他危險情況，請立即填寫下方表單回報。</p>
 
         <div class="form-container">
             <form id="disasterForm" onsubmit="submitReport(event)">
                 
                 <div class="form-group">
-                    <label>發生地點 / 位置 <span class="required-mark">*</span></label>
-                    <input type="text" id="r_location" placeholder="例如：D棟地下停車場入口、活動中心旁步道" required>
+                    <label data-zh="發生地點 / 位置 *" data-en="Location *">發生地點 / 位置 <span class="required-mark">*</span></label>
+                    <input type="text" id="r_location" placeholder="例如：D棟地下停車場入口、活動中心旁步道" data-zh-ph="例如：D棟地下停車場入口、活動中心旁步道" data-en-ph="e.g., Basement Parking Entrance, Building D" required>
                 </div>
 
                 <div class="form-group">
-                    <label>災害嚴重程度 <span class="required-mark">*</span></label>
+                    <label data-zh="災害嚴重程度 *" data-en="Severity *">災害嚴重程度 <span class="required-mark">*</span></label>
                     <select id="r_severity" required>
-                        <option value="" disabled selected>請選擇...</option>
-                        <option value="low">🟢 低 (輕微積水、路面不平，不影響通行)</option>
-                        <option value="mid">🟡 中 (局部淹水、磁磚脫落，需小心通行)</option>
-                        <option value="high">🔴 高 (嚴重淹水、樹木倒塌、立即危險)</option>
+                        <option value="" disabled selected data-zh="請選擇..." data-en="Please select...">請選擇...</option>
+                        <option value="low" data-zh="🟢 低 (輕微積水、路面不平，不影響通行)" data-en="🟢 Low (Minor issue, no obstruction)">🟢 低 (輕微積水、路面不平，不影響通行)</option>
+                        <option value="mid" data-zh="🟡 中 (局部淹水、磁磚脫落，需小心通行)" data-en="🟡 Medium (Partial flooding, caution required)">🟡 中 (局部淹水、磁磚脫落，需小心通行)</option>
+                        <option value="high" data-zh="🔴 高 (嚴重淹水、樹木倒塌、立即危險)" data-en="🔴 High (Severe flooding, immediate danger)">🔴 高 (嚴重淹水、樹木倒塌、立即危險)</option>
                     </select>
                 </div>
 
                 <div class="form-group">
-                    <label>聯絡電話 <span style="font-weight:normal; color:#666;">(以便校方確認後續狀況，選填)</span></label>
+                    <label data-zh="聯絡電話 (以便校方確認後續狀況，選填)" data-en="Phone (Optional)">聯絡電話 <span style="font-weight:normal; color:#666;">(以便校方確認後續狀況，選填)</span></label>
                     <input type="tel" id="r_phone" oninput="checkPhoneRequirement()">
                 </div>
 
                 <div class="form-group">
-                    <label>通報人姓名 <span id="name-star" class="required-mark" style="display:none;">*</span></label>
+                    <label data-zh="通報人姓名" data-en="Name">通報人姓名 <span id="name-star" class="required-mark" style="display:none;">*</span></label>
                     <div class="name-group">
-                        <input type="text" id="r_name" class="name-input" placeholder="姓氏 (例如：陳)">
+                        <input type="text" id="r_name" class="name-input" placeholder="姓氏 (例如：陳)" data-zh-ph="姓氏 (例如：陳)" data-en-ph="Surname (e.g., Chen)">
                         <select id="r_title" class="title-select">
-                            <option value="先生">先生</option>
-                            <option value="小姐">小姐</option>
+                            <option value="先生" data-zh="先生" data-en="Mr.">先生</option>
+                            <option value="小姐" data-zh="小姐" data-en="Ms.">小姐</option>
                         </select>
                     </div>
-                    <div class="note" id="name-note">※ 如有填寫電話，此欄位為必填。</div>
+                    <div class="note" id="name-note" data-zh="※ 如有填寫電話，此欄位為必填。" data-en="* Required if phone number is provided.">※ 如有填寫電話，此欄位為必填。</div>
                 </div>
 
                 <div class="form-group">
-                    <label>現場照片 (選填)</label>
+                    <label data-zh="現場照片 (選填)" data-en="Photo (Optional)">現場照片 (選填)</label>
                     <div class="file-upload" onclick="document.getElementById('r_photo').click()">
                         <i class="fas fa-camera" style="font-size: 2rem; color: #ccc;"></i>
-                        <p>點擊上傳照片 (支援 JPG, PNG)</p>
+                        <p data-zh="點擊上傳照片 (支援 JPG, PNG)" data-en="Click to upload photo (JPG, PNG)">點擊上傳照片 (支援 JPG, PNG)</p>
                         <input type="file" id="r_photo" accept="image/*" style="display: none;" onchange="previewImage(this)">
                         <img id="img-preview" class="preview-img" alt="預覽圖">
                     </div>
                 </div>
 
-                <button type="submit" class="submit-btn">提交回報單</button>
+                <button type="submit" class="submit-btn" data-zh="提交回報單" data-en="Submit Report">提交回報單</button>
             </form>
         </div>
     </section>
@@ -389,50 +393,47 @@
             <h2><i class="fas fa-user-shield"></i> <span data-zh="管理者登入" data-en="Admin Login">管理者登入</span></h2>
             <form onsubmit="adminLogin(event)">
                 <div class="form-group">
-                    <input type="text" id="admin_user" placeholder="帳號 (admin)" required>
+                    <input type="text" id="admin_user" placeholder="帳號 (admin)" data-zh-ph="帳號 (admin)" data-en-ph="Username (admin)" required>
                 </div>
                 <div class="form-group">
-                    <input type="password" id="admin_pass" placeholder="密碼 (1234)" required>
+                    <input type="password" id="admin_pass" placeholder="密碼 (1234)" data-zh-ph="密碼 (1234)" data-en-ph="Password (1234)" required>
                 </div>
-                <button type="submit" class="submit-btn" style="background-color: var(--secondary);">登入系統</button>
+                <button type="submit" class="submit-btn" style="background-color: var(--secondary);" data-zh="登入系統" data-en="Login">登入系統</button>
             </form>
         </div>
     </section>
 
     <section id="admin-dashboard" class="page-section">
-        <div class="admin-dashboard-container" style="background: white; padding: 30px; border-radius: 10px; box-shadow: 0 5px 20px rgba(0,0,0,0.05);">
-            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
-                <h2><i class="fas fa-list-alt"></i> 災害通報紀錄表</h2>
-                <button onclick="logout()" style="padding: 8px 15px; background: #666; color: white; border: none; border-radius: 4px; cursor: pointer;">登出</button>
-            </div>
-            
-            <div style="background:#eee; padding:15px; margin:20px 0; border-radius:8px;">
-                <label><strong>📢 修改即時公告：</strong></label>
-                <div style="display: flex; gap: 10px; margin-top: 10px;">
-                    <input type="text" id="marquee-input" style="flex:1; padding:8px;" placeholder="輸入新的公告內容...">
-                    <button onclick="updateMarquee()" style="padding:8px 15px; background:var(--primary); color:white; border:none; cursor:pointer; border-radius:4px;">更新</button>
-                </div>
-            </div>
-            
-            <div style="overflow-x: auto;">
-                <table class="admin-table">
-                    <thead>
-                        <tr>
-                            <th>時間</th>
-                            <th>嚴重度</th>
-                            <th>地點</th>
-                            <th>通報人</th>
-                            <th>電話</th>
-                            <th>照片</th>
-                            <th>操作</th>
-                        </tr>
-                    </thead>
-                    <tbody id="report-list">
-                        </tbody>
-                </table>
-            </div>
-            <p style="text-align: center; margin-top: 20px; color: #888;" id="no-data-msg">目前尚無通報資料。</p>
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
+            <h2><i class="fas fa-list-alt"></i> <span data-zh="災害通報紀錄表" data-en="Disaster Report Log">災害通報紀錄表</span></h2>
+            <button onclick="logout()" style="padding: 8px 15px; background: #666; color: white; border: none; border-radius: 4px; cursor: pointer;" data-zh="登出" data-en="Logout">登出</button>
         </div>
+        
+        <div style="background:#eee; padding:15px; margin:20px 0; border-radius:8px;">
+            <label><strong data-zh="📢 修改即時公告：" data-en="📢 Edit Marquee:">📢 修改即時公告：</strong></label>
+            <div style="display: flex; gap: 10px; margin-top: 10px;">
+                <input type="text" id="marquee-input" style="flex:1; padding:8px;" placeholder="輸入新的公告內容..." data-zh-ph="輸入新的公告內容..." data-en-ph="Enter new announcement...">
+                <button onclick="updateMarquee()" style="padding:8px 15px; background:var(--primary); color:white; border:none; cursor:pointer; border-radius:4px;" data-zh="更新" data-en="Update">更新</button>
+            </div>
+        </div>
+        
+        <div style="overflow-x: auto;">
+            <table class="admin-table">
+                <thead>
+                    <tr>
+                        <th data-zh="時間" data-en="Time">時間</th>
+                        <th data-zh="嚴重度" data-en="Severity">嚴重度</th>
+                        <th data-zh="地點" data-en="Location">地點</th>
+                        <th data-zh="通報人" data-en="Name">通報人</th>
+                        <th data-zh="電話" data-en="Phone">電話</th>
+                        <th data-zh="照片" data-en="Photo">照片</th>
+                        <th data-zh="操作" data-en="Action">操作</th>
+                    </tr>
+                </thead>
+                <tbody id="report-list"></tbody>
+            </table>
+        </div>
+        <p style="text-align: center; margin-top: 20px; color: #888;" id="no-data-msg" data-zh="目前尚無通報資料。" data-en="No reports available.">目前尚無通報資料。</p>
     </section>
 
     <section id="map" class="page-section">
@@ -441,339 +442,231 @@
             <iframe src="https://www.google.com/maps/d/u/0/embed?mid=1e7YNipNQYmx3FDdRpsJDjtQtBoiJRlo&ehbc=2E312F" width="100%" height="480" style="border:0; max-width: 900px; border-radius: 10px; box-shadow: 0 4px 15px rgba(0,0,0,0.1);"></iframe>
         </div>
         <div class="risk-grid">
-            <div class="risk-card"><div class="risk-img-box"><img src="地下室淹水.jpg" alt="地下室淹水"></div><div class="risk-info"><h3>地下室與機電區 <span class="badge">極高風險</span></h3><p>地下空間與低地勢區域最容易積水，可能導致機電設備受損。若排水泵失效，將造成嚴重災情。</p></div></div>
-            <div class="risk-card"><div class="risk-img-box"><img src="籃球場.jpg" alt="籃球場"></div><div class="risk-info"><h3>籃球場周邊步道 <span class="badge">跌倒風險</span></h3><p>路面坑洞、磚塊凸起，且因地勢低窪容易積水。夜間視線不佳時，避難容易發生意外。</p></div></div>
-            <div class="risk-card"><div class="risk-img-box"><img src="D棟停車場.jpg" alt="D棟停車場"></div><div class="risk-info"><h3>D棟 停車場 <span class="badge">車輛受損</span></h3><p>外牆底部與地下入口易出現局部滲水、積水。地面濕滑對師生與車輛進出造成危險。</p></div></div>
-            <div class="risk-card"><div class="risk-img-box"><img src="人文大樓廣場.jpg" alt="人文大樓廣場"></div><div class="risk-info"><h3>人文大樓廣場 <span class="badge">濕滑</span></h3><p>下雨時廣場地磚極度濕滑，且為主要活動區域，疏散時易發生推擠滑倒。</p></div></div>
-            <div class="risk-card"><div class="risk-img-box"><img src="周圍環境淹水.jpg" alt="周圍環境淹水"></div><div class="risk-info"><h3>學校周邊環境 <span class="badge">交通受阻</span></h3><p>周邊道路大雨時匯水集中，若排水不及易導致回堵，影響救災車輛與人員撤離動線。</p></div></div>
+            <div class="risk-card"><div class="risk-img-box"><img src="地下室淹水.jpg" alt="地下室淹水"></div><div class="risk-info"><h3 data-zh="地下室與機電區" data-en="Basement & Electrical Area">地下室與機電區 <span class="badge">極高風險</span></h3><p data-zh="地下空間與低地勢區域最容易積水，可能導致機電設備受損。若排水泵失效，將造成嚴重災情。" data-en="Low-lying areas prone to flooding, risking equipment damage.">地下空間與低地勢區域最容易積水，可能導致機電設備受損。若排水泵失效，將造成嚴重災情。</p></div></div>
+            <div class="risk-card"><div class="risk-img-box"><img src="籃球場.jpg" alt="籃球場"></div><div class="risk-info"><h3 data-zh="籃球場周邊步道" data-en="Basketball Court Path">籃球場周邊步道 <span class="badge">跌倒風險</span></h3><p data-zh="路面坑洞、磚塊凸起，且因地勢低窪容易積水。夜間視線不佳時，避難容易發生意外。" data-en="Potholes and uneven surfaces make it prone to flooding and tripping.">路面坑洞、磚塊凸起，且因地勢低窪容易積水。夜間視線不佳時，避難容易發生意外。</p></div></div>
+            <div class="risk-card"><div class="risk-img-box"><img src="D棟停車場.jpg" alt="D棟停車場"></div><div class="risk-info"><h3 data-zh="D棟 停車場" data-en="Building D Parking">D棟 停車場 <span class="badge">車輛受損</span></h3><p data-zh="外牆底部與地下入口易出現局部滲水、積水。地面濕滑對師生與車輛進出造成危險。" data-en="Seepage and flooding often occur at the entrance. Slippery when wet.">外牆底部與地下入口易出現局部滲水、積水。地面濕滑對師生與車輛進出造成危險。</p></div></div>
+            <div class="risk-card"><div class="risk-img-box"><img src="人文大樓廣場.jpg" alt="人文大樓廣場"></div><div class="risk-info"><h3 data-zh="人文大樓廣場" data-en="Humanities Plaza">人文大樓廣場 <span class="badge">濕滑</span></h3><p data-zh="下雨時廣場地磚極度濕滑，且為主要活動區域，疏散時易發生推擠滑倒。" data-en="Tiles become extremely slippery when wet in this high-traffic area.">下雨時廣場地磚極度濕滑，且為主要活動區域，疏散時易發生推擠滑倒。</p></div></div>
+            <div class="risk-card"><div class="risk-img-box"><img src="周圍環境淹水.jpg" alt="周圍環境淹水"></div><div class="risk-info"><h3 data-zh="學校周邊環境" data-en="Surrounding Area">學校周邊環境 <span class="badge">交通受阻</span></h3><p data-zh="周邊道路大雨時匯水集中，若排水不及易導致回堵，影響救災車輛與人員撤離動線。" data-en="Heavy rain causes water accumulation, blocking traffic and evacuation routes.">周邊道路大雨時匯水集中，若排水不及易導致回堵，影響救災車輛與人員撤離動線。</p></div></div>
         </div>
     </section>
 
     <section id="response" class="page-section">
-        <h2 style="text-align: center; margin-bottom: 20px; font-size: 2rem;" data-zh="災難緊急應變流程" data-en="Emergency Response">災難緊急應變流程</h2>
-        <p style="text-align: center; margin-bottom: 50px;">當災難發生時，按照以下步驟有序應變，可以最大程度保護自己和他人的生命安全。</p>
+        <h2 style="text-align: center; margin-bottom: 20px; font-size: 2rem;" data-zh="災難緊急應變流程" data-en="Emergency Response Procedures">災難緊急應變流程</h2>
+        <p style="text-align: center; margin-bottom: 50px;" data-zh="當災難發生時，按照以下步驟有序應變，可以最大程度保護自己和他人的生命安全。" data-en="Follow these steps to ensure safety for yourself and others.">當災難發生時，按照以下步驟有序應變，可以最大程度保護自己和他人的生命安全。</p>
         <div class="timeline-wrapper">
-            <div class="timeline-step urgent"><span class="step-time">災害發生 (0分鐘) - 立即</span><div class="step-content"><h3>保持冷靜與評估</h3><ul><li><strong>保持冷靜：</strong>不要驚慌失措，深呼吸，準備應變。</li><li><strong>聽取廣播：</strong>校園廣播系統會發布應變指令。</li><li><strong>評估環境：</strong>確認是否有立即危險。</li></ul></div></div>
-            <div class="timeline-step urgent"><span class="step-time">疏散階段 (0-5分鐘) - 關鍵</span><div class="step-content"><h3>有序疏散</h3><ul><li><strong>有序移動：</strong>沿著標示的逃生路線前往指定集合點，不要推擠或奔跑。</li><li><strong>幫助他人：</strong>協助行動不便者、老人、兒童安全疏散。</li><li><strong>重要物品：</strong>如有時間，帶上身份證、手機等重要物品。</li></ul></div></div>
-            <div class="timeline-step"><span class="step-time">集合階段 (5-15分鐘) - 重要</span><div class="step-content"><h3>到達安全地點與點名</h3><ul><li><strong>集合：</strong>在指定集合點集合，遠離危險區域。</li><li><strong>點名：</strong>班級或部門進行點名，確認人員安全。</li><li><strong>等待：</strong>保持安靜，等待應變人員進一步指示。</li></ul></div></div>
-            <div class="timeline-step"><span class="step-time">後續應變 (15分鐘後) - 持續</span><div class="step-content"><h3>配合指揮與聯絡</h3><ul><li><strong>配合：</strong>配合應變人員、消防隊、警察的指揮。</li><li><strong>協助：</strong>如有能力，協助應變人員進行救援或疏散。</li><li><strong>聯絡家人：</strong>在安全的情況下，通知家人您的狀況。</li></ul></div></div>
+            <div class="timeline-step urgent"><span class="step-time">0 min</span><div class="step-content"><h3 data-zh="保持冷靜與評估" data-en="Stay Calm & Assess">保持冷靜與評估</h3><ul><li data-zh="保持冷靜：不要驚慌失措，深呼吸，準備應變。" data-en="Stay calm, do not panic.">保持冷靜：不要驚慌失措，深呼吸，準備應變。</li><li data-zh="聽取廣播：校園廣播系統會發布應變指令。" data-en="Listen to campus broadcast instructions.">聽取廣播：校園廣播系統會發布應變指令。</li><li data-zh="評估環境：確認是否有立即危險。" data-en="Assess immediate danger.">評估環境：確認是否有立即危險。</li></ul></div></div>
+            <div class="timeline-step urgent"><span class="step-time">0-5 min</span><div class="step-content"><h3 data-zh="有序疏散" data-en="Orderly Evacuation">有序疏散</h3><ul><li data-zh="有序移動：沿著標示的逃生路線前往指定集合點，不要推擠或奔跑。" data-en="Follow exit signs to assembly points. Do not run.">有序移動：沿著標示的逃生路線前往指定集合點，不要推擠或奔跑。</li><li data-zh="幫助他人：協助行動不便者、老人、兒童安全疏散。" data-en="Assist those in need.">幫助他人：協助行動不便者、老人、兒童安全疏散。</li><li data-zh="重要物品：如有時間，帶上身份證、手機等重要物品。" data-en="Take ID and phone if time permits.">重要物品：如有時間，帶上身份證、手機等重要物品。</li></ul></div></div>
+            <div class="timeline-step"><span class="step-time">5-15 min</span><div class="step-content"><h3 data-zh="到達安全地點與點名" data-en="Assembly & Roll Call">到達安全地點與點名</h3><ul><li data-zh="集合：在指定集合點集合，遠離危險區域。" data-en="Gather at designated points.">集合：在指定集合點集合，遠離危險區域。</li><li data-zh="點名：班級或部門進行點名，確認人員安全。" data-en="Conduct roll call.">點名：班級或部門進行點名，確認人員安全。</li><li data-zh="等待：保持安靜，等待應變人員進一步指示。" data-en="Wait for instructions.">等待：保持安靜，等待應變人員進一步指示。</li></ul></div></div>
+            <div class="timeline-step"><span class="step-time">15+ min</span><div class="step-content"><h3 data-zh="配合指揮與聯絡" data-en="Cooperate & Contact">配合指揮與聯絡</h3><ul><li data-zh="配合：配合應變人員、消防隊、警察的指揮。" data-en="Follow instructions from authorities.">配合：配合應變人員、消防隊、警察的指揮。</li><li data-zh="協助：如有能力，協助應變人員進行救援或疏散。" data-en="Assist if capable.">協助：如有能力，協助應變人員進行救援或疏散。</li><li data-zh="聯絡家人：在安全的情況下，通知家人您的狀況。" data-en="Contact family when safe.">聯絡家人：在安全的情況下，通知家人您的狀況。</li></ul></div></div>
         </div>
-        <h3 style="margin-top: 50px; border-left: 5px solid var(--accent); padding-left: 15px;">特殊情況應變</h3>
+        <h3 style="margin-top: 50px; border-left: 5px solid var(--accent); padding-left: 15px;" data-zh="特殊情況應變" data-en="Special Situations">特殊情況應變</h3>
         <div class="scenario-grid">
-            <div class="scenario-box"><h4>被困在建築物內</h4><p>保持冷靜，不要試圖跳樓。移動到安全位置（遠離窗戶），使用手機或敲擊聲音吸引注意，等待專業救援。</p></div>
-            <div class="scenario-box"><h4>在戶外遭遇災害</h4><p>遠離建築物、樹木、電線。尋找開闊安全的地方，避免進入淹水區域，聽從廣播指示。</p></div>
-            <div class="scenario-box"><h4>有人受傷</h4><p>立即通知應變人員或撥打 119。不要移動重傷患者，提供基本急救，保持患者意識清醒。</p></div>
-            <div class="scenario-box"><h4>失散家人或朋友</h4><p>留在集合點等待，告知應變人員失散人員信息，不要離開指定區域自行尋找，使用廣播系統尋人。</p></div>
+            <div class="scenario-box"><h4 data-zh="被困在建築物內" data-en="Trapped Inside">被困在建築物內</h4><p data-zh="保持冷靜，不要試圖跳樓。移動到安全位置（遠離窗戶），使用手機或敲擊聲音吸引注意，等待專業救援。" data-en="Stay calm. Move to safety away from windows. Signal for help.">保持冷靜，不要試圖跳樓。移動到安全位置（遠離窗戶），使用手機或敲擊聲音吸引注意，等待專業救援。</p></div>
+            <div class="scenario-box"><h4 data-zh="在戶外遭遇災害" data-en="Outdoors">在戶外遭遇災害</h4><p data-zh="遠離建築物、樹木、電線。尋找開闊安全的地方，避免進入淹水區域，聽從廣播指示。" data-en="Stay away from buildings and trees. Find open ground. Avoid water.">遠離建築物、樹木、電線。尋找開闊安全的地方，避免進入淹水區域，聽從廣播指示。</p></div>
+            <div class="scenario-box"><h4 data-zh="有人受傷" data-en="Injuries">有人受傷</h4><p data-zh="立即通知應變人員或撥打 119。不要移動重傷患者，提供基本急救，保持患者意識清醒。" data-en="Call 119. Do not move seriously injured persons.">立即通知應變人員或撥打 119。不要移動重傷患者，提供基本急救，保持患者意識清醒。</p></div>
+            <div class="scenario-box"><h4 data-zh="失散家人或朋友" data-en="Missing Persons">失散家人或朋友</h4><p data-zh="留在集合點等待，告知應變人員失散人員信息，不要離開指定區域自行尋找，使用廣播系統尋人。" data-en="Stay at assembly point. Inform staff. Do not search alone.">留在集合點等待，告知應變人員失散人員信息，不要離開指定區域自行尋找，使用廣播系統尋人。</p></div>
         </div>
-        <div class="alert-box"><i class="fas fa-exclamation-triangle"></i> 重要提醒：不要使用電梯・不要回頭取物・不要聚集・始終遵守指示</div>
+        <div class="alert-box"><i class="fas fa-exclamation-triangle"></i> <span data-zh="重要提醒：不要使用電梯・不要回頭取物・不要聚集・始終遵守指示" data-en="Important: No Elevators • No Turning Back • No Crowding • Follow Instructions">重要提醒：不要使用電梯・不要回頭取物・不要聚集・始終遵守指示</span></div>
     </section>
 
     <section id="facilities" class="page-section">
         <h2 style="text-align: center; margin-bottom: 20px; font-size: 2rem;" data-zh="校園設施介紹" data-en="Campus Facilities">校園設施介紹</h2>
-        <p style="text-align: center; margin-bottom: 40px; color: #666;">了解校園內的避難設施與應急設備，確保在緊急情況下能夠快速找到安全地點。</p>
+        <p style="text-align: center; margin-bottom: 40px; color: #666;" data-zh="了解校園內的避難設施與應急設備，確保在緊急情況下能夠快速找到安全地點。" data-en="Know your campus evacuation facilities and emergency equipment.">了解校園內的避難設施與應急設備，確保在緊急情況下能夠快速找到安全地點。</p>
         <div class="facilities-grid">
-            <div class="facility-card main"><div class="facility-header"><h3>勞工公園 (鳥松區)</h3><span class="facility-tag">主要避難集合點</span></div><div class="facility-body"><div class="info-block"><h4>基本訊息</h4><ul class="info-list"><li><i class="fas fa-ruler-combined"></i> 面積：54,696 平方公尺</li><li><i class="fas fa-users"></i> 容納：3,295 人</li><li><i class="fas fa-map-marker-alt"></i> 位置：校園西側 (約300m)</li></ul></div><div><strong><i class="fas fa-concierge-bell"></i> 設施配置：</strong><div class="feature-list"><span class="feature-item"><i class="fas fa-check"></i>開闊平地</span><span class="feature-item"><i class="fas fa-check"></i>飲用水設施</span><span class="feature-item"><i class="fas fa-check"></i>照明設備</span><span class="feature-item"><i class="fas fa-check"></i>廁所設施</span></div></div><div class="route-box"><strong><i class="fas fa-route"></i> 疏散路線：</strong><br>從校園西門出發，沿著指示標誌前往公園。</div></div></div>
-            <div class="facility-card backup"><div class="facility-header"><h3>體育館</h3><span class="facility-tag">備援避難場所</span></div><div class="facility-body"><div class="info-block"><h4>基本訊息</h4><ul class="info-list"><li><i class="fas fa-ruler-combined"></i> 面積：約 5,000 平方公尺</li><li><i class="fas fa-users"></i> 容納：1,500 人</li><li><i class="fas fa-map-marker-alt"></i> 位置：校園中央 (距離 100-200m)</li></ul></div><div><strong><i class="fas fa-concierge-bell"></i> 設施配置：</strong><div class="feature-list"><span class="feature-item"><i class="fas fa-check"></i>室內空間</span><span class="feature-item"><i class="fas fa-check"></i>飲用水</span><span class="feature-item"><i class="fas fa-check"></i>廁所</span><span class="feature-item"><i class="fas fa-check"></i>醫療室</span></div></div><div class="route-box"><strong><i class="fas fa-info-circle"></i> 用途：</strong><br>惡劣天氣時的備援避難所。</div></div></div>
-            <div class="facility-card temp"><div class="facility-header"><h3>禮堂</h3><span class="facility-tag">臨時避難場所</span></div><div class="facility-body"><div class="info-block"><h4>基本訊息</h4><ul class="info-list"><li><i class="fas fa-ruler-combined"></i> 面積：約 3,000 平方公尺</li><li><i class="fas fa-users"></i> 容納：800 人</li><li><i class="fas fa-map-marker-alt"></i> 位置：校園南側 (距離 150-300m)</li></ul></div><div><strong><i class="fas fa-concierge-bell"></i> 設施配置：</strong><div class="feature-list"><span class="feature-item"><i class="fas fa-check"></i>室內空間</span><span class="feature-item"><i class="fas fa-check"></i>舞台區域</span><span class="feature-item"><i class="fas fa-check"></i>廁所</span><span class="feature-item"><i class="fas fa-check"></i>音響系統</span></div></div><div class="route-box"><strong><i class="fas fa-info-circle"></i> 用途：</strong><br>長期避難或集中安置使用。</div></div></div>
-            <div class="facility-card medical"><div class="facility-header"><h3>多功能教室</h3><span class="facility-tag">臨時醫療與指揮中心</span></div><div class="facility-body"><div class="info-block"><h4>基本訊息</h4><ul class="info-list"><li><i class="fas fa-cubes"></i> 數量：3 個</li><li><i class="fas fa-users"></i> 容納：50-100 人</li><li><i class="fas fa-map-marker-alt"></i> 位置：各校區分散配置</li></ul></div><div><strong><i class="fas fa-concierge-bell"></i> 設施配置：</strong><div class="feature-list"><span class="feature-item"><i class="fas fa-check"></i>室內空間</span><span class="feature-item"><i class="fas fa-check"></i>基本醫療設備</span><span class="feature-item"><i class="fas fa-check"></i>通訊設備</span><span class="feature-item"><i class="fas fa-check"></i>飲用水</span></div></div><div class="route-box"><strong><i class="fas fa-info-circle"></i> 用途：</strong><br>應變指揮、傷患收治。</div></div></div>
+            <div class="facility-card main"><div class="facility-header"><h3>勞工公園 (鳥松區)</h3><span class="facility-tag" data-zh="主要避難集合點" data-en="Main Assembly Point">主要避難集合點</span></div><div class="facility-body"><div class="info-block"><h4 data-zh="基本訊息" data-en="Basic Info">基本訊息</h4><ul class="info-list"><li><i class="fas fa-ruler-combined"></i> 54,696 m²</li><li><i class="fas fa-users"></i> <span data-zh="容納：3,295 人" data-en="Capacity: 3,295">容納：3,295 人</span></li><li><i class="fas fa-map-marker-alt"></i> <span data-zh="位置：校園西側 (約300m)" data-en="Loc: West side (300m)">位置：校園西側 (約300m)</span></li></ul></div><div class="route-box"><strong data-zh="疏散路線：" data-en="Route:">疏散路線：</strong> <span data-zh="從校園西門出發，沿著指示標誌前往公園。" data-en="Exit via West Gate, follow signs.">從校園西門出發，沿著指示標誌前往公園。</span></div></div></div>
+            <div class="facility-card backup"><div class="facility-header"><h3>體育館</h3><span class="facility-tag" data-zh="備援避難場所" data-en="Backup Shelter">備援避難場所</span></div><div class="facility-body"><div class="info-block"><h4 data-zh="基本訊息" data-en="Basic Info">基本訊息</h4><ul class="info-list"><li><i class="fas fa-ruler-combined"></i> 5,000 m²</li><li><i class="fas fa-users"></i> <span data-zh="容納：1,500 人" data-en="Capacity: 1,500">容納：1,500 人</span></li><li><i class="fas fa-map-marker-alt"></i> <span data-zh="位置：校園中央" data-en="Loc: Central Campus">位置：校園中央</span></li></ul></div><div class="route-box"><strong data-zh="用途：" data-en="Usage:">用途：</strong> <span data-zh="惡劣天氣時的備援避難所。" data-en="Backup shelter for severe weather.">惡劣天氣時的備援避難所。</span></div></div></div>
+            <div class="facility-card temp"><div class="facility-header"><h3>禮堂</h3><span class="facility-tag" data-zh="臨時避難場所" data-en="Temporary Shelter">臨時避難場所</span></div><div class="facility-body"><div class="info-block"><h4 data-zh="基本訊息" data-en="Basic Info">基本訊息</h4><ul class="info-list"><li><i class="fas fa-ruler-combined"></i> 3,000 m²</li><li><i class="fas fa-users"></i> <span data-zh="容納：800 人" data-en="Capacity: 800">容納：800 人</span></li><li><i class="fas fa-map-marker-alt"></i> <span data-zh="位置：校園南側" data-en="Loc: South Campus">位置：校園南側</span></li></ul></div><div class="route-box"><strong data-zh="用途：" data-en="Usage:">用途：</strong> <span data-zh="長期避難或集中安置使用。" data-en="Long-term shelter.">長期避難或集中安置使用。</span></div></div></div>
+            <div class="facility-card medical"><div class="facility-header"><h3 data-zh="多功能教室" data-en="Multi-function Room">多功能教室</h3><span class="facility-tag" data-zh="臨時醫療與指揮中心" data-en="Medical & Command Center">臨時醫療與指揮中心</span></div><div class="facility-body"><div class="info-block"><h4 data-zh="基本訊息" data-en="Basic Info">基本訊息</h4><ul class="info-list"><li><i class="fas fa-cubes"></i> <span data-zh="數量：3 個" data-en="Count: 3">數量：3 個</span></li><li><i class="fas fa-users"></i> <span data-zh="容納：50-100 人" data-en="Capacity: 50-100">容納：50-100 人</span></li><li><i class="fas fa-map-marker-alt"></i> <span data-zh="位置：各校區分散配置" data-en="Loc: Distributed">位置：各校區分散配置</span></li></ul></div><div class="route-box"><strong data-zh="用途：" data-en="Usage:">用途：</strong> <span data-zh="應變指揮、傷患收治。" data-en="Command center, triage.">應變指揮、傷患收治。</span></div></div></div>
         </div>
     </section>
 
     <section id="improvements" class="page-section">
         <h2 style="text-align: center; margin-bottom: 40px; font-size: 2rem;" data-zh="未來改善計畫" data-en="Improvement Plans">未來改善計畫</h2>
-        <p>針對調查結果，我們提出分階段的改善計畫，期望能逐步提升校園防災韌性。</p>
         <div class="improve-cols">
-            <div class="improve-item short"><h3><i class="fas fa-hourglass-start"></i> 短期計畫 (1-6 個月)</h3><div class="plan-block"><h4>更新應急預案</h4><ul><li>根據最新法規更新校園應急預案</li><li>完善各部門應急職責分工</li><li>建立應急聯絡機制與通訊錄</li><li>制定應急物資儲備清單</li></ul></div><div class="plan-block"><h4>加強應急標識</h4><ul><li>增加疏散標示與逃生路線圖</li><li>更新集合點標識與說明</li><li>安裝應急照明與警示燈</li><li>繪製校園應急地圖</li></ul></div><div class="plan-block"><h4>增加應急物資</h4><ul><li>購置應急醫療包與急救用品</li><li>儲備應急飲用水與食品</li><li>配置手電筒、電池、毛毯等物資</li><li>建立應急物資儲備室</li></ul></div><div class="plan-block"><h4>定期檢查設施</h4><ul><li>每月檢查消防設備與滅火器</li><li>每季度檢查應急照明系統</li><li>每半年檢查疏散標識與出口</li><li>建立設施檢查記錄表</li></ul></div></div>
-            <div class="improve-item mid"><h3><i class="fas fa-hourglass-half"></i> 中期計畫 (6-18 個月)</h3><div class="plan-block"><h4>升級應急系統</h4><ul><li>升級校園廣播系統，增加覆蓋範圍</li><li>安裝應急警報系統與警示燈</li><li>建立應急通訊網絡與對講機系統</li><li>配置應急發電機與備用電源</li></ul></div><div class="plan-block"><h4>改善排水設施</h4><ul><li>升級校園排水系統，增加排水容量</li><li>疏通下水道與排水溝</li><li>在低窪地區安裝排水泵</li><li>建立雨水收集與利用系統</li></ul></div><div class="plan-block"><h4>建立應急中心</h4><ul><li>建立校園應急指揮中心</li><li>配置應急通訊設備與監控系統</li><li>建立應急醫療室與傷患收治點</li><li>儲備應急物資與醫療用品</li></ul></div><div class="plan-block"><h4>配置應急車輛</h4><ul><li>購置應急救援車輛</li><li>配置應急醫療車與運輸車</li><li>建立應急車隊管理制度</li><li>培訓應急駕駛員與操作人員</li></ul></div></div>
-            <div class="improve-item long"><h3><i class="fas fa-hourglass-end"></i> 長期計畫 (18 個月以上)</h3><div class="plan-block"><h4>校園防災改造</h4><ul><li>進行校園結構加固與防震改造</li><li>升級建築物防火性能</li><li>改善校園排水與防淹設施</li><li>建立防災綠化帶與緩衝區</li></ul></div><div class="plan-block"><h4>建立智能預警系統</h4><ul><li>建立校園災害監測網絡</li><li>配置地震、降雨、風速監測儀</li><li>建立預警信息發布系統</li><li>實現與政府部門的信息共享</li></ul></div><div class="plan-block"><h4>完善應急保障體系</h4><ul><li>建立應急物資儲備基地</li><li>建立應急人才培訓中心</li><li>建立應急心理援助機制</li><li>建立應急保險與賠償制度</li></ul></div><div class="plan-block"><h4>建立應急基地</h4><ul><li>建立校園應急避難基地</li><li>建立應急物資儲備庫</li><li>建立應急醫療救治中心</li><li>建立應急指揮與協調中心</li></ul></div></div>
+            <div class="improve-item short"><h3 data-zh="短期計畫 (1-6 個月)" data-en="Short-term (1-6 Months)">短期計畫 (1-6 個月)</h3><div class="plan-block"><h4 data-zh="更新應急預案" data-en="Update Plans">更新應急預案</h4><ul><li data-zh="根據最新法規更新校園應急預案" data-en="Update emergency plans per regulations.">根據最新法規更新校園應急預案</li><li data-zh="完善各部門應急職責分工" data-en="Clarify department roles.">完善各部門應急職責分工</li></ul></div></div>
+            <div class="improve-item mid"><h3 data-zh="中期計畫 (6-18 個月)" data-en="Mid-term (6-18 Months)">中期計畫 (6-18 個月)</h3><div class="plan-block"><h4 data-zh="升級應急系統" data-en="System Upgrade">升級應急系統</h4><ul><li data-zh="升級校園廣播系統" data-en="Upgrade broadcast system.">升級校園廣播系統</li><li data-zh="配置應急發電機" data-en="Install backup generators.">配置應急發電機</li></ul></div></div>
+            <div class="improve-item long"><h3 data-zh="長期計畫 (18 個月以上)" data-en="Long-term (18+ Months)">長期計畫 (18 個月以上)</h3><div class="plan-block"><h4 data-zh="校園防災改造" data-en="Campus Renovation">校園防災改造</h4><ul><li data-zh="進行校園結構加固" data-en="Structural reinforcement.">進行校園結構加固</li><li data-zh="建立智能預警系統" data-en="Smart warning system.">建立智能預警系統</li></ul></div></div>
         </div>
-        <div class="strategy-section"><h3><i class="fas fa-chess-board"></i> 實施策略</h3><div class="strategy-grid"><div class="strategy-card"><h4>1. 組織領導</h4><p>成立校園防災應急工作領導小組，明確各部門職責與分工。</p></div><div class="strategy-card"><h4>2. 經費保障</h4><p>建立防災應急經費預算制度，確保改善計畫的資金投入。</p></div><div class="strategy-card"><h4>3. 人才培訓</h4><p>建立應急人才培訓機制，提升校園應急管理與救援能力。</p></div><div class="strategy-card"><h4>4. 定期評估</h4><p>建立改善計畫評估機制，定期檢查實施進度與效果。</p></div><div class="strategy-card"><h4>5. 社區合作</h4><p>與周邊社區、政府部門建立應急合作機制。</p></div></div></div>
+        <div class="strategy-section"><h3 data-zh="實施策略" data-en="Implementation Strategy">實施策略</h3><div class="strategy-grid"><div class="strategy-card"><h4 data-zh="1. 組織領導" data-en="1. Leadership">1. 組織領導</h4><p data-zh="成立校園防災應急工作領導小組。" data-en="Form emergency response task force.">成立校園防災應急工作領導小組。</p></div><div class="strategy-card"><h4 data-zh="2. 經費保障" data-en="2. Funding">2. 經費保障</h4><p data-zh="建立防災應急經費預算制度。" data-en="Secure emergency budget.">建立防災應急經費預算制度。</p></div><div class="strategy-card"><h4 data-zh="3. 人才培訓" data-en="3. Training">3. 人才培訓</h4><p data-zh="建立應急人才培訓機制。" data-en="Establish training programs.">建立應急人才培訓機制。</p></div></div></div>
     </section>
 
     <section id="about" class="page-section">
         <h2 style="text-align: center; margin-bottom: 40px; font-size: 2rem;" data-zh="關於本網站" data-en="About Us">關於本網站</h2>
         <div class="about-grid">
             <div class="about-content">
-                
-                <a href="基地調查-正修及周邊環境相關避難與應變.pdf" download class="download-btn"><i class="fas fa-file-pdf"></i> 下載完整調查報告 (PDF)</a>
-
+                <a href="基地調查-正修及周邊環境相關避難與應變.pdf" download class="download-btn"><i class="fas fa-file-pdf"></i> <span data-zh="下載完整調查報告 (PDF)" data-en="Download Full Report (PDF)">下載完整調查報告 (PDF)</span></a>
                 <h3 data-zh="網站目的" data-en="Purpose">網站目的</h3>
-                <p>本網站為正修科技大學設計，旨在提供校園師生與訪客完整的防災資訊、應變措施與安全指南。通過了解校園周邊的災害風險、應變流程與設施位置，我們能夠在緊急情況下做出正確的決定，保護自己和他人的生命安全。</p>
-
+                <p data-zh="本網站為正修科技大學設計，旨在提供校園師生與訪客完整的防災資訊、應變措施與安全指南。" data-en="Designed for CSU to provide complete disaster information and safety guides.">本網站為正修科技大學設計，旨在提供校園師生與訪客完整的防災資訊、應變措施與安全指南。</p>
                 <h3 data-zh="建立人" data-en="Creators">建立人</h3>
                 <p>王子銓、廖和風</p>
-
                 <h3 data-zh="資料來源" data-en="Sources">資料來源</h3>
                 <ul class="about-list">
-                    <li>正修官網。</li>
-                    <li>進修部 108 學年度第 2 學期第 4 次班會專題討論內容摘要 「校園安全專題」。</li>
-                    <li>「高雄市避難收容處所名冊」。</li>
-                    <li>「鳥松區公所 災害防救計畫」。</li>
-                    <li>校內「防災演練計畫書」。</li>
+                    <li data-zh="正修官網" data-en="CSU Official Website">正修官網</li>
+                    <li data-zh="進修部 108 學年度第 2 學期第 4 次班會專題討論內容摘要" data-en="Continuing Education Dept. 108-2 4th Meeting Summary">進修部 108 學年度第 2 學期第 4 次班會專題討論內容摘要</li>
+                    <li data-zh="「高雄市避難收容處所名冊」" data-en="Kaohsiung City Shelter List">「高雄市避難收容處所名冊」</li>
+                    <li data-zh="「鳥松區公所 災害防救計畫」" data-en="Niaosong District Disaster Plan">「鳥松區公所 災害防救計畫」</li>
+                    <li data-zh="校內「防災演練計畫書」" data-en="Campus Drill Plan">校內「防災演練計畫書」</li>
                 </ul>
-
                 <h3 data-zh="更新時間" data-en="Updated">更新時間</h3>
-                <p>最後更新：2026 年 1 月</p>
-                <p style="font-size: 0.9rem; color: #666; margin-top: 20px;"><strong>隱私權聲明：</strong>本網站尊重用戶隱私。我們不會收集個人識別資訊，除非您主動提供。<br><strong>免責聲明：</strong>本網站提供的資訊僅供參考，不構成法律建議或專業建議。在緊急情況下，請立即撥打 119（消防）或 110（警察）。</p>
+                <p>2026/01</p>
+                <div style="margin-top:20px; font-size:0.9rem; color:#666;">
+                    <p><strong data-zh="隱私權聲明：" data-en="Privacy:">隱私權聲明：</strong> <span data-zh="本網站尊重用戶隱私，不收集個人識別資訊。" data-en="We respect privacy and do not collect PII.">本網站尊重用戶隱私，不收集個人識別資訊。</span></p>
+                    <p><strong data-zh="免責聲明：" data-en="Disclaimer:">免責聲明：</strong> <span data-zh="本網站資訊僅供參考，緊急情況請撥打 119。" data-en="Info for reference only. Call 119 for emergencies.">本網站資訊僅供參考，緊急情況請撥打 119。</span></p>
+                </div>
             </div>
             <div class="contact-sidebar">
-                <h3 style="border:none; margin-top:0; color:var(--accent);">聯絡資訊</h3>
-                <div class="contact-row"><i class="fas fa-user-shield"></i><div><strong>校安中心</strong><br>07-731-2787<br>0978-500-795</div></div>
-                <div class="contact-row"><i class="fas fa-phone-volume"></i><div><strong>緊急求助</strong><br>消防：119<br>警察：110</div></div>
-                <div class="contact-row"><i class="fas fa-map-marker-alt"></i><div><strong>校園地址</strong><br>高雄市鳥松區澄清路840號</div></div>
+                <h3 style="border:none; margin-top:0; color:var(--accent);" data-zh="聯絡資訊" data-en="Contact Info">聯絡資訊</h3>
+                <div class="contact-row"><i class="fas fa-user-shield"></i><div><strong data-zh="校安中心" data-en="Security Center">校安中心</strong><br>07-731-2787<br>0978-500-795</div></div>
+                <div class="contact-row"><i class="fas fa-phone-volume"></i><div><strong data-zh="緊急求助" data-en="Emergency">緊急求助</strong><br>119 / 110</div></div>
+                <div class="contact-row"><i class="fas fa-map-marker-alt"></i><div><strong data-zh="校園地址" data-en="Address">校園地址</strong><br>高雄市鳥松區澄清路840號</div></div>
             </div>
         </div>
     </section>
 
     <footer>
         <div class="footer-content">
-            <div class="footer-col">
-                <h4 data-zh="快速導覽" data-en="Quick Links">快速導覽</h4>
-                <ul>
-                    <li><a onclick="showPage('map')" data-zh="災害地圖" data-en="Risk Map">災害地圖</a></li>
-                    <li><a onclick="showPage('response')" data-zh="應變流程" data-en="Response">應變流程</a></li>
-                    <li><a onclick="showPage('facilities')" data-zh="校園設施" data-en="Facilities">校園設施</a></li>
-                    <li><a onclick="showPage('improvements')" data-zh="改善方向" data-en="Plan">改善方向</a></li>
-                    <li><a onclick="showPage('home')" class="home-btn"><i class="fas fa-home"></i> 返回首頁</a></li>
-                </ul>
-            </div>
-            <div class="footer-col">
-                <h4 data-zh="聯絡資訊" data-en="Contact">聯絡資訊</h4>
-                <p><i class="fas fa-phone-alt"></i> 正修校安中心：<br>07-731-2787<br>0978-500-795</p>
-                <p><i class="fas fa-ambulance"></i> 緊急求助：119 / 110</p>
-            </div>
-            <div class="footer-col">
-                <h4 data-zh="網站製作" data-en="Credits">網站製作</h4>
-                <p>建立人：王子銓、廖和風</p>
-                <p>指導老師：鄭安祐</p>
-            </div>
-            <div class="footer-col">
-                <h4 data-zh="隱私與聲明" data-en="Privacy">隱私與聲明</h4>
-                <p style="font-size: 0.8rem; line-height: 1.4;">本網站尊重用戶隱私，不收集個人識別資訊。提供的資訊僅供參考，緊急情況請直接撥打 119。</p>
-            </div>
+            <div class="footer-col"><h4 data-zh="快速導覽" data-en="Quick Links">快速導覽</h4><ul><li><a onclick="showPage('map')" data-zh="災害地圖" data-en="Risk Map">災害地圖</a></li><li><a onclick="showPage('response')" data-zh="應變流程" data-en="Response">應變流程</a></li><li><a onclick="showPage('facilities')" data-zh="校園設施" data-en="Facilities">校園設施</a></li><li><a onclick="showPage('home')" class="home-btn" data-zh="返回首頁" data-en="Back Home">返回首頁</a></li></ul></div>
+            <div class="footer-col"><h4 data-zh="聯絡資訊" data-en="Contact">聯絡資訊</h4><p>正修校安中心：<br>07-731-2787<br>0978-500-795</p></div>
+            <div class="footer-col"><h4 data-zh="網站製作" data-en="Credits">網站製作</h4><p data-zh="建立人：王子銓、廖和風" data-en="Creators: Wang Z.Q. & Liao H.F.">建立人：王子銓、廖和風</p><p data-zh="指導老師：鄭安祐" data-en="Advisor: Cheng A.Y.">指導老師：鄭安祐</p></div>
         </div>
-        <div class="footer-bottom">
-            <p>版權所有 © 2026 建立人所有。翻印必究。未經許可不得擅自複製、修改或傳播。</p>
+        <div style="text-align:center; padding-top:20px; border-top:1px solid #333;">
+            <p data-zh="版權所有 © 2026 建立人所有。翻印必究。" data-en="Copyright © 2026 Creators. All Rights Reserved.">版權所有 © 2026 建立人所有。翻印必究。</p>
         </div>
     </footer>
 
     <script>
-        // 1. 初始化
+        // 初始化
         function initApp() {
-            // 從 LocalStorage 載入自定義跑馬燈
             const savedMarquee = localStorage.getItem('customMarquee');
             if(savedMarquee) document.getElementById('marquee-content').innerText = savedMarquee;
         }
 
-        // 2. 語言切換邏輯
+        // 語言切換邏輯 (升級版)
         let currentLang = 'zh';
         function toggleLang() {
             currentLang = currentLang === 'zh' ? 'en' : 'zh';
-            document.querySelectorAll('[data-zh]').forEach(el => {
-                el.innerText = el.getAttribute('data-' + currentLang);
-            });
-        }
-
-        // 3. 分頁切換
-        function showPage(pageId) {
-            const sections = document.querySelectorAll('.page-section');
-            sections.forEach(section => {
-                section.classList.remove('active');
-            });
-
-            const target = document.getElementById(pageId);
-            if(target) {
-                target.classList.add('active');
-                window.scrollTo(0, 0);
-            }
-
-            const navBtns = document.querySelectorAll('.nav-btn');
-            navBtns.forEach(btn => {
-                btn.classList.remove('active');
-            });
             
-            const activeBtn = document.querySelector(`.nav-btn[onclick="showPage('${pageId}')"]`);
-            if(activeBtn) {
-                activeBtn.classList.add('active');
-            }
+            // 1. 替換一般文字
+            document.querySelectorAll('[data-zh]').forEach(el => {
+                el.innerHTML = el.getAttribute('data-' + currentLang);
+            });
 
-            const menu = document.getElementById('navMenu');
-            if(menu.classList.contains('active')) {
-                menu.classList.remove('active');
-            }
+            // 2. 替換輸入框提示 (Placeholder)
+            document.querySelectorAll('[data-zh-ph]').forEach(el => {
+                el.placeholder = el.getAttribute('data-' + currentLang + '-ph');
+            });
         }
 
-        function toggleMenu() {
+        // 分頁切換
+        function showPage(pageId) {
+            document.querySelectorAll('.page-section').forEach(s => s.classList.remove('active'));
+            document.getElementById(pageId).classList.add('active');
+            window.scrollTo(0, 0);
+            document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
+            const btn = document.querySelector(`.nav-btn[onclick*="${pageId}"]`);
+            if(btn) btn.classList.add('active');
+            // 手機版自動收合
             const menu = document.getElementById('navMenu');
-            menu.classList.toggle('active');
+            if(menu.classList.contains('active')) menu.classList.remove('active');
         }
 
-        // 4. 表單互動：電話輸入時，姓名變必填
+        function toggleMenu() { document.getElementById('navMenu').classList.toggle('active'); }
+
         function checkPhoneRequirement() {
-            const phone = document.getElementById('r_phone').value;
-            const nameInput = document.getElementById('r_name');
-            const nameStar = document.getElementById('name-star');
-            const nameNote = document.getElementById('name-note');
-
-            if (phone.length > 0) {
-                nameInput.required = true;
-                nameStar.style.display = 'inline';
-                nameNote.style.color = '#d32f2f'; // 紅色提醒
-            } else {
-                nameInput.required = false;
-                nameStar.style.display = 'none';
-                nameNote.style.color = '#666';
-            }
+            const ph = document.getElementById('r_phone').value;
+            const nm = document.getElementById('r_name');
+            const star = document.getElementById('name-star');
+            if(ph.length > 0) { nm.required = true; star.style.display = 'inline'; } 
+            else { nm.required = false; star.style.display = 'none'; }
         }
 
-        // 5. 照片預覽功能
         function previewImage(input) {
             const preview = document.getElementById('img-preview');
             if (input.files && input.files[0]) {
                 const reader = new FileReader();
-                reader.onload = function(e) {
-                    preview.src = e.target.result;
-                    preview.style.display = 'block';
-                }
+                reader.onload = function(e) { preview.src = e.target.result; preview.style.display = 'block'; }
                 reader.readAsDataURL(input.files[0]);
-            } else {
-                preview.style.display = 'none';
-            }
+            } else { preview.style.display = 'none'; }
         }
 
-        // 6. 提交回報 (存入 LocalStorage)
         function submitReport(e) {
             e.preventDefault();
-            
-            // 取得表單資料
             const location = document.getElementById('r_location').value;
             const severity = document.getElementById('r_severity').value;
             const phone = document.getElementById('r_phone').value;
             const name = document.getElementById('r_name').value;
             const title = document.getElementById('r_title').value;
             const photoInput = document.getElementById('r_photo');
-            let photoData = ""; // 預設無照片
-
-            // 處理照片 (轉為 DataURL 儲存)
-            if (photoInput.files && photoInput.files[0]) {
-                const reader = new FileReader();
-                reader.onload = function(evt) {
-                    photoData = evt.target.result;
-                    saveToStorage(location, severity, phone, name, title, photoData);
-                };
-                reader.readAsDataURL(photoInput.files[0]);
-            } else {
-                saveToStorage(location, severity, phone, name, title, "");
-            }
-        }
-
-        function saveToStorage(loc, sev, ph, nm, ti, pic) {
-            const now = new Date();
-            const timeString = `${now.getFullYear()}/${now.getMonth()+1}/${now.getDate()} ${now.getHours()}:${now.getMinutes()}`;
             
-            const newReport = {
-                time: timeString,
-                location: loc,
-                severity: sev,
-                phone: ph,
-                name: nm ? `${nm}${ti}` : "匿名",
-                photo: pic
+            const processSave = (photoData) => {
+                const newReport = {
+                    time: new Date().toLocaleString(),
+                    location: location,
+                    severity: severity,
+                    phone: phone,
+                    name: name ? `${name}${title}` : (currentLang === 'zh' ? "匿名" : "Anonymous"),
+                    photo: photoData
+                };
+                let reports = JSON.parse(localStorage.getItem('disasterReports')) || [];
+                reports.unshift(newReport);
+                localStorage.setItem('disasterReports', JSON.stringify(reports));
+                alert(currentLang === 'zh' ? '✅ 回報成功！' : '✅ Report Submitted!');
+                document.getElementById('disasterForm').reset();
+                document.getElementById('img-preview').style.display = 'none';
+                showPage('home');
             };
 
-            // 取得舊資料
-            let reports = JSON.parse(localStorage.getItem('disasterReports')) || [];
-            reports.unshift(newReport); // 加到最前面
-            localStorage.setItem('disasterReports', JSON.stringify(reports));
-
-            alert('✅ 通報成功！感謝您的協助。');
-            document.getElementById('disasterForm').reset();
-            document.getElementById('img-preview').style.display = 'none';
-            showPage('home'); // 回首頁
+            if (photoInput.files && photoInput.files[0]) {
+                const reader = new FileReader();
+                reader.onload = function(evt) { processSave(evt.target.result); };
+                reader.readAsDataURL(photoInput.files[0]);
+            } else { processSave(""); }
         }
 
-        // 7. 管理者登入
         function adminLogin(e) {
             e.preventDefault();
-            const u = document.getElementById('admin_user').value;
-            const p = document.getElementById('admin_pass').value;
-
-            if(u === 'admin' && p === '1234') {
-                loadReports();
+            if(document.getElementById('admin_user').value === 'admin' && document.getElementById('admin_pass').value === '1234') {
+                renderAdminTable();
                 showPage('admin-dashboard');
                 document.getElementById('admin_user').value = '';
                 document.getElementById('admin_pass').value = '';
-            } else {
-                alert('❌ 帳號或密碼錯誤！');
-            }
+            } else { alert(currentLang === 'zh' ? '❌ 帳號密碼錯誤' : '❌ Invalid Credentials'); }
         }
 
-        // 8. 讀取回報資料 (後台)
-        function loadReports() {
+        function renderAdminTable() {
             const list = document.getElementById('report-list');
             const reports = JSON.parse(localStorage.getItem('disasterReports')) || [];
             const noData = document.getElementById('no-data-msg');
-
             list.innerHTML = "";
-            
-            if (reports.length === 0) {
-                noData.style.display = 'block';
-                return;
-            } else {
-                noData.style.display = 'none';
-            }
+            noData.style.display = reports.length === 0 ? 'block' : 'none';
 
-            const sevMap = {
-                'low': '<span class="severity-badge sev-low">低</span>',
-                'mid': '<span class="severity-badge sev-mid">中</span>',
-                'high': '<span class="severity-badge sev-high">高</span>'
-            };
-
-            reports.forEach((r, index) => {
-                const photoHtml = r.photo ? `<img src="${r.photo}" class="admin-photo" onclick="window.open(this.src)">` : '無';
-                const row = `
-                    <tr>
-                        <td>${r.time}</td>
-                        <td>${sevMap[r.severity]}</td>
-                        <td>${r.location}</td>
-                        <td>${r.name}</td>
-                        <td>${r.phone || '-'}</td>
-                        <td>${photoHtml}</td>
-                        <td>
-                            <button class="delete-btn" onclick="deleteReport(${index})"><i class="fas fa-trash-alt"></i> 刪除</button>
-                        </td>
-                    </tr>
-                `;
-                list.innerHTML += row;
+            reports.forEach((r, i) => {
+                const photoHtml = r.photo ? `<img src="${r.photo}" class="admin-photo" onclick="window.open(this.src)">` : (currentLang === 'zh' ? '無' : 'None');
+                const delText = currentLang === 'zh' ? '刪除' : 'Delete';
+                list.innerHTML += `<tr><td>${r.time}</td><td>${r.severity}</td><td>${r.location}</td><td>${r.name}</td><td>${r.phone||'-'}</td><td>${photoHtml}</td><td><button class="delete-btn" onclick="deleteReport(${i})">${delText}</button></td></tr>`;
             });
         }
 
-        // 9. 刪除回報 (新增功能)
         function deleteReport(index) {
-            if(confirm('確定要刪除這筆回報紀錄嗎？此動作無法復原。')) {
-                let reports = JSON.parse(localStorage.getItem('disasterReports')) || [];
-                reports.splice(index, 1); // 刪除指定索引的資料
-                localStorage.setItem('disasterReports', JSON.stringify(reports)); // 存回
-                loadReports(); // 重新整理表格
-                alert('已刪除該筆資料。');
+            if(confirm(currentLang === 'zh' ? '確定刪除此筆資料？' : 'Delete this report?')) {
+                let reports = JSON.parse(localStorage.getItem('disasterReports'));
+                reports.splice(index, 1);
+                localStorage.setItem('disasterReports', JSON.stringify(reports));
+                renderAdminTable();
             }
         }
 
-        // 10. 管理者更新跑馬燈
         function updateMarquee() {
             const val = document.getElementById('marquee-input').value;
             if(val) {
                 localStorage.setItem('customMarquee', val);
                 document.getElementById('marquee-content').innerText = val;
-                alert('公告已更新！');
+                alert(currentLang === 'zh' ? '公告已更新' : 'Marquee Updated');
                 document.getElementById('marquee-input').value = '';
-            } else {
-                alert('請輸入公告內容');
             }
         }
 
-        function logout() {
-            showPage('home');
-        }
+        function logout() { showPage('home'); }
     </script>
 </body>
 </html>
