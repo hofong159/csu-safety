@@ -312,7 +312,7 @@
 
     <div class="marquee-container">
         <div class="marquee-text" id="marquee-content">
-            📢 歡迎使用正修防災應變資訊網。若發現緊急狀況，請立即聯絡校安中心或撥打 119。 | ⚠️ 提醒：雨天路滑，經過宿舍階梯時請小心慢行。 | 📍 本網站僅提供避難資訊參考，具體指揮請聽從校內廣播人員。
+            📢 歡迎使用正修防災應變資訊網。資料連線中...
         </div>
     </div>
 
@@ -410,7 +410,7 @@
         </div>
         
         <div style="background:#eee; padding:15px; margin:20px 0; border-radius:8px;">
-            <label><strong data-zh="📢 修改即時公告：" data-en="📢 Edit Marquee:">📢 修改即時公告：</strong></label>
+            <label><strong data-zh="📢 修改即時公告 (全球同步)：" data-en="📢 Edit Marquee (Syncs Globally):">📢 修改即時公告 (全球同步)：</strong></label>
             <div style="display: flex; gap: 10px; margin-top: 10px;">
                 <input type="text" id="marquee-input" style="flex:1; padding:8px;" placeholder="輸入新的公告內容..." data-zh-ph="輸入新的公告內容..." data-en-ph="Enter new announcement...">
                 <button onclick="updateMarquee()" style="padding:8px 15px; background:var(--primary); color:white; border:none; cursor:pointer; border-radius:4px;" data-zh="更新" data-en="Update">更新</button>
@@ -535,172 +535,214 @@
     </footer>
 
     <script type="module">
-    // 1. 引入 Firebase SDK
-    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
-    import { getFirestore, collection, addDoc, onSnapshot, query, orderBy, deleteDoc, doc } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
+        // 1. 引入 Firebase SDK
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
+        import { getFirestore, collection, addDoc, onSnapshot, query, orderBy, deleteDoc, doc, setDoc } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
 
-    // ===========================================================
-    // 2. ⚠️ 這是您正確的金鑰設定 ⚠️
-    const firebaseConfig = {
-        apiKey: "AIzaSyCMdWO2uft4dztmj_y0ijtjL1GjqUM_Xfs",
-        authDomain: "csu-safety.firebaseapp.com",
-        projectId: "csu-safety",
-        storageBucket: "csu-safety.firebasestorage.app",
-        messagingSenderId: "665788616647",
-        appId: "1:665788616647:web:efa256edaac5387dfbd3e2",
-        measurementId: "G-JHQ8YGGKS0"
-    };
-    // ===========================================================
-
-    // 3. 初始化 Firebase
-    const app = initializeApp(firebaseConfig);
-    const db = getFirestore(app);
-
-    // --- 以下網站功能全自動化 ---
-
-    window.initApp = function() {
-        const savedMarquee = localStorage.getItem('customMarquee');
-        if(savedMarquee) document.getElementById('marquee-content').innerText = savedMarquee;
-    }
-
-    let currentLang = 'zh';
-    window.toggleLang = function() {
-        currentLang = currentLang === 'zh' ? 'en' : 'zh';
-        document.querySelectorAll('[data-zh]').forEach(el => {
-            el.innerHTML = el.getAttribute('data-' + currentLang);
-        });
-        document.querySelectorAll('[data-zh-ph]').forEach(el => {
-            el.placeholder = el.getAttribute('data-' + currentLang + '-ph');
-        });
-    }
-
-    window.showPage = function(pageId) {
-        document.querySelectorAll('.page-section').forEach(s => s.classList.remove('active'));
-        document.getElementById(pageId).classList.add('active');
-        window.scrollTo(0, 0);
-        document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
-        const btn = document.querySelector(`.nav-btn[onclick*="${pageId}"]`);
-        if(btn) btn.classList.add('active');
-        const menu = document.getElementById('navMenu');
-        if(menu.classList.contains('active')) menu.classList.remove('active');
-    }
-
-    window.toggleMenu = function() {
-        document.getElementById('navMenu').classList.toggle('active');
-    }
-
-    window.checkPhoneRequirement = function() {
-        const ph = document.getElementById('r_phone').value;
-        const nm = document.getElementById('r_name');
-        const star = document.getElementById('name-star');
-        if(ph.length > 0) { nm.required = true; star.style.display = 'inline'; } 
-        else { nm.required = false; star.style.display = 'none'; }
-    }
-
-    window.previewImage = function(input) {
-        const preview = document.getElementById('img-preview');
-        if (input.files && input.files[0]) {
-            const reader = new FileReader();
-            reader.onload = function(e) { preview.src = e.target.result; preview.style.display = 'block'; }
-            reader.readAsDataURL(input.files[0]);
-        } else { preview.style.display = 'none'; }
-    }
-
-    // 🔥 雲端回報核心
-    window.submitReport = async function(e) {
-        e.preventDefault();
-        const photoInput = document.getElementById('r_photo');
-        
-        const saveData = async (pic) => {
-            const newReport = {
-                time: new Date().toLocaleString(),
-                location: document.getElementById('r_location').value,
-                severity: document.getElementById('r_severity').value,
-                phone: document.getElementById('r_phone').value,
-                name: document.getElementById('r_name').value ? 
-                      document.getElementById('r_name').value + document.getElementById('r_title').value : 
-                      (currentLang === 'zh' ? "匿名" : "Anonymous"),
-                photo: pic,
-                timestamp: Date.now()
-            };
-
-            try {
-                await addDoc(collection(db, "reports"), newReport);
-                alert(currentLang === 'zh' ? '✅ 回報成功！資料已同步至雲端。' : '✅ Report Submitted to Cloud!');
-                document.getElementById('disasterForm').reset();
-                document.getElementById('img-preview').style.display = 'none';
-                showPage('home');
-            } catch (error) {
-                console.error("Error adding document: ", error);
-                alert('上傳失敗 (Upload Failed)：' + error.message);
-            }
+        // 2. ⚠️ 您的 Firebase 金鑰 (已填入)
+        const firebaseConfig = {
+            apiKey: "AIzaSyCMdWO2uft4dztmj_y0ijtjL1GjqUM_Xfs",
+            authDomain: "csu-safety.firebaseapp.com",
+            projectId: "csu-safety",
+            storageBucket: "csu-safety.firebasestorage.app",
+            messagingSenderId: "665788616647",
+            appId: "1:665788616647:web:efa256edaac5387dfbd3e2",
+            measurementId: "G-JHQ8YGGKS0"
         };
 
-        if (photoInput.files && photoInput.files[0]) {
-            const reader = new FileReader();
-            reader.onload = (evt) => saveData(evt.target.result);
-            reader.readAsDataURL(photoInput.files[0]);
-        } else { saveData(""); }
-    }
+        // 3. 初始化 Firebase
+        const app = initializeApp(firebaseConfig);
+        const db = getFirestore(app);
 
-    // 🔥 管理者登入與即時監聽
-    window.adminLogin = function(e) {
-        e.preventDefault();
-        if(document.getElementById('admin_user').value === 'admin' && document.getElementById('admin_pass').value === '1234') {
-            startListening();
-            showPage('admin-dashboard');
-            document.getElementById('admin_user').value = '';
-            document.getElementById('admin_pass').value = '';
-        } else { alert(currentLang === 'zh' ? '❌ 帳號密碼錯誤' : '❌ Invalid Credentials'); }
-    }
+        // --- 全域功能綁定 (確保 HTML 按鈕能呼叫模組內的函數) ---
 
-    let unsubscribe;
-    function startListening() {
-        if(unsubscribe) unsubscribe();
-        const q = query(collection(db, "reports"), orderBy("timestamp", "desc"));
-        unsubscribe = onSnapshot(q, (snapshot) => {
-            const list = document.getElementById('report-list');
-            const noData = document.getElementById('no-data-msg');
-            list.innerHTML = "";
-            noData.style.display = snapshot.empty ? 'block' : 'none';
+        // 初始化：同時監聽「跑馬燈」與「回報」
+        window.initApp = function() {
+            listenToMarquee(); // 啟動跑馬燈監聽
+        }
 
-            snapshot.forEach((docSnap) => {
-                const r = docSnap.data();
-                const photoHtml = r.photo ? `<img src="${r.photo}" class="admin-photo" onclick="window.open(this.src)">` : (currentLang === 'zh' ? '無' : 'None');
-                const delText = currentLang === 'zh' ? '刪除' : 'Delete';
-                
-                list.innerHTML += `<tr>
-                    <td>${r.time}</td>
-                    <td>${r.severity}</td>
-                    <td>${r.location}</td>
-                    <td>${r.name}</td>
-                    <td>${r.phone || '-'}</td>
-                    <td>${photoHtml}</td>
-                    <td><button class="delete-btn" onclick="deleteReport('${docSnap.id}')">${delText}</button></td>
-                </tr>`;
+        // 🔥 雲端跑馬燈同步功能
+        function listenToMarquee() {
+            // 監聽 'settings' 集合裡的 'marquee' 文件
+            onSnapshot(doc(db, "settings", "marquee"), (doc) => {
+                if (doc.exists()) {
+                    const text = doc.data().content;
+                    const marqueeEl = document.getElementById('marquee-content');
+                    if(marqueeEl) marqueeEl.innerText = text;
+                    // 同步更新後台輸入框的預設值
+                    const inputEl = document.getElementById('marquee-input');
+                    if(inputEl) inputEl.value = text;
+                }
             });
-        });
-    }
-
-    // 🔥 刪除雲端資料
-    window.deleteReport = async function(docId) {
-        if(confirm(currentLang === 'zh' ? '確定從雲端資料庫永久刪除？' : 'Delete from cloud database?')) {
-            try { await deleteDoc(doc(db, "reports", docId)); } 
-            catch (error) { alert('刪除失敗：' + error.message); }
         }
-    }
 
-    window.updateMarquee = function() {
-        const val = document.getElementById('marquee-input').value;
-        if(val) {
-            localStorage.setItem('customMarquee', val);
-            document.getElementById('marquee-content').innerText = val;
-            alert(currentLang === 'zh' ? '公告已更新' : 'Marquee Updated');
-            document.getElementById('marquee-input').value = '';
+        // 🔥 更新跑馬燈 (寫入雲端)
+        window.updateMarquee = async function() {
+            const val = document.getElementById('marquee-input').value;
+            if(val) {
+                try {
+                    // 將文字寫入雲端資料庫，所有裝置會自動同步
+                    await setDoc(doc(db, "settings", "marquee"), { content: val });
+                    alert(currentLang === 'zh' ? '✅ 公告已更新！所有人都看得到。' : '✅ Marquee Updated Globally!');
+                } catch (error) {
+                    console.error("Error updating marquee: ", error);
+                    alert('更新失敗：' + error.message);
+                }
+            } else {
+                alert('請輸入內容');
+            }
         }
-    }
 
-    window.logout = function() { showPage('home'); }
-</script>
+        // 語言切換
+        let currentLang = 'zh';
+        window.toggleLang = function() {
+            currentLang = currentLang === 'zh' ? 'en' : 'zh';
+            document.querySelectorAll('[data-zh]').forEach(el => {
+                el.innerText = el.getAttribute('data-' + currentLang);
+            });
+            document.querySelectorAll('[data-zh-ph]').forEach(el => {
+                el.placeholder = el.getAttribute('data-' + currentLang + '-ph');
+            });
+        }
+
+        // 頁面切換
+        window.showPage = function(pageId) {
+            document.querySelectorAll('.page-section').forEach(s => s.classList.remove('active'));
+            const target = document.getElementById(pageId);
+            if(target) target.classList.add('active');
+            
+            window.scrollTo(0, 0);
+            
+            document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
+            const btn = document.querySelector(`.nav-btn[onclick*="${pageId}"]`);
+            if(btn) btn.classList.add('active');
+
+            const menu = document.getElementById('navMenu');
+            if(menu && menu.classList.contains('active')) menu.classList.remove('active');
+        }
+
+        window.toggleMenu = function() {
+            const menu = document.getElementById('navMenu');
+            if(menu) menu.classList.toggle('active');
+        }
+
+        window.checkPhoneRequirement = function() {
+            const ph = document.getElementById('r_phone');
+            const nm = document.getElementById('r_name');
+            const star = document.getElementById('name-star');
+            if(ph && ph.value.length > 0) { 
+                nm.required = true; 
+                if(star) star.style.display = 'inline'; 
+            } else { 
+                nm.required = false; 
+                if(star) star.style.display = 'none'; 
+            }
+        }
+
+        window.previewImage = function(input) {
+            const preview = document.getElementById('img-preview');
+            if (input.files && input.files[0]) {
+                const reader = new FileReader();
+                reader.onload = function(e) { preview.src = e.target.result; preview.style.display = 'block'; }
+                reader.readAsDataURL(input.files[0]);
+            } else { preview.style.display = 'none'; }
+        }
+
+        // 🔥 雲端回報核心
+        window.submitReport = async function(e) {
+            e.preventDefault();
+            const photoInput = document.getElementById('r_photo');
+            
+            const saveData = async (pic) => {
+                const newReport = {
+                    time: new Date().toLocaleString(),
+                    location: document.getElementById('r_location').value,
+                    severity: document.getElementById('r_severity').value,
+                    phone: document.getElementById('r_phone').value,
+                    name: document.getElementById('r_name').value ? 
+                          document.getElementById('r_name').value + document.getElementById('r_title').value : 
+                          (currentLang === 'zh' ? "匿名" : "Anonymous"),
+                    photo: pic,
+                    timestamp: Date.now()
+                };
+
+                try {
+                    await addDoc(collection(db, "reports"), newReport);
+                    alert(currentLang === 'zh' ? '✅ 回報成功！資料已同步至雲端。' : '✅ Report Submitted to Cloud!');
+                    document.getElementById('disasterForm').reset();
+                    const preview = document.getElementById('img-preview');
+                    if(preview) preview.style.display = 'none';
+                    window.showPage('home');
+                } catch (error) {
+                    console.error("Error adding document: ", error);
+                    alert('上傳失敗：' + error.message);
+                }
+            };
+
+            if (photoInput && photoInput.files && photoInput.files[0]) {
+                const reader = new FileReader();
+                reader.onload = (evt) => saveData(evt.target.result);
+                reader.readAsDataURL(photoInput.files[0]);
+            } else { saveData(""); }
+        }
+
+        // 管理者登入
+        window.adminLogin = function(e) {
+            e.preventDefault();
+            const u = document.getElementById('admin_user').value;
+            const p = document.getElementById('admin_pass').value;
+
+            if(u === 'admin' && p === '1234') {
+                startListening(); // 登入成功後啟動列表監聽
+                window.showPage('admin-dashboard');
+                document.getElementById('admin_user').value = '';
+                document.getElementById('admin_pass').value = '';
+            } else { 
+                alert(currentLang === 'zh' ? '❌ 帳號密碼錯誤' : '❌ Invalid Credentials'); 
+            }
+        }
+
+        // 🔥 監聽雲端回報列表
+        let unsubscribeReports;
+        function startListening() {
+            if(unsubscribeReports) unsubscribeReports();
+            const q = query(collection(db, "reports"), orderBy("timestamp", "desc"));
+            unsubscribeReports = onSnapshot(q, (snapshot) => {
+                const list = document.getElementById('report-list');
+                const noData = document.getElementById('no-data-msg');
+                
+                if(!list) return;
+
+                list.innerHTML = "";
+                if(noData) noData.style.display = snapshot.empty ? 'block' : 'none';
+
+                snapshot.forEach((docSnap) => {
+                    const r = docSnap.data();
+                    const photoHtml = r.photo ? `<img src="${r.photo}" class="admin-photo" onclick="window.open(this.src)">` : (currentLang === 'zh' ? '無' : 'None');
+                    const delText = currentLang === 'zh' ? '刪除' : 'Delete';
+                    
+                    list.innerHTML += `<tr>
+                        <td>${r.time}</td>
+                        <td>${r.severity}</td>
+                        <td>${r.location}</td>
+                        <td>${r.name}</td>
+                        <td>${r.phone || '-'}</td>
+                        <td>${photoHtml}</td>
+                        <td><button class="delete-btn" onclick="deleteReport('${docSnap.id}')">${delText}</button></td>
+                    </tr>`;
+                });
+            });
+        }
+
+        // 🔥 刪除雲端資料
+        window.deleteReport = async function(docId) {
+            if(confirm(currentLang === 'zh' ? '確定從雲端資料庫永久刪除？' : 'Delete from cloud database?')) {
+                try { await deleteDoc(doc(db, "reports", docId)); } 
+                catch (error) { alert('刪除失敗：' + error.message); }
+            }
+        }
+
+        window.logout = function() { window.showPage('home'); }
+    </script>
 </body>
 </html>
