@@ -16,10 +16,20 @@
             --light-bg: #f5f7fa;
             --text: #333;
             --nav-height: 70px;
+            --marquee-height: 40px; /* 新增：跑馬燈高度 */
         }
 
         * { margin: 0; padding: 0; box-sizing: border-box; }
-        body { font-family: 'Noto Sans TC', sans-serif; line-height: 1.6; color: var(--text); background-color: var(--light-bg); padding-top: var(--nav-height); }
+        
+        /* 修改：body padding-top 加上跑馬燈高度，避免內容被遮擋 */
+        body { 
+            font-family: 'Noto Sans TC', sans-serif; 
+            line-height: 1.6; 
+            color: var(--text); 
+            background-color: var(--light-bg); 
+            padding-top: calc(var(--nav-height) + var(--marquee-height)); 
+        }
+
         a { text-decoration: none; color: inherit; transition: 0.3s; cursor: pointer; }
         ul { list-style: none; }
 
@@ -32,7 +42,7 @@
             height: var(--nav-height);
             background-color: rgba(38, 50, 56, 0.98);
             color: white;
-            z-index: 1000;
+            z-index: 1001; /* 修改：提高層級 */
             box-shadow: 0 2px 10px rgba(0,0,0,0.3);
             display: flex;
             justify-content: space-between;
@@ -76,13 +86,54 @@
         }
         nav .admin-btn:hover { background-color: #263238; color: white !important; border-color: var(--accent); }
         
+        /* 新增：語言切換按鈕樣式 */
+        .lang-switch {
+            margin-left: 10px;
+            background: transparent;
+            border: 1px solid var(--accent);
+            color: var(--accent);
+            padding: 4px 8px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-weight: bold;
+            font-size: 0.85rem;
+        }
+        .lang-switch:hover { background: var(--accent); color: var(--secondary); }
+
+        /* 新增：跑馬燈樣式 */
+        .marquee-container {
+            position: fixed;
+            top: var(--nav-height); /* 緊接在導覽列下方 */
+            left: 0;
+            width: 100%;
+            height: var(--marquee-height);
+            background-color: #fff3e0;
+            color: #e65100;
+            z-index: 1000;
+            display: flex;
+            align-items: center;
+            overflow: hidden;
+            border-bottom: 1px solid #ffe0b2;
+            font-weight: 500;
+            font-size: 0.95rem;
+        }
+        .marquee-text {
+            white-space: nowrap;
+            padding-left: 100%;
+            animation: marquee 25s linear infinite;
+        }
+        @keyframes marquee {
+            0% { transform: translateX(0); }
+            100% { transform: translateX(-100%); }
+        }
+
         @keyframes pulse {
             0% { box-shadow: 0 0 0 0 rgba(211, 47, 47, 0.4); }
             70% { box-shadow: 0 0 0 10px rgba(211, 47, 47, 0); }
             100% { box-shadow: 0 0 0 0 rgba(211, 47, 47, 0); }
         }
 
-        .mobile-toggle { display: none; font-size: 1.5rem; cursor: pointer; }
+        .mobile-toggle { display: none; font-size: 1.5rem; cursor: pointer; color: white; }
 
         /* --- 頁面切換機制 --- */
         .page-section {
@@ -144,7 +195,7 @@
 
         /* --- 一般頁面樣式 --- */
         #home { padding: 0; max-width: 100%; }
-        .hero-banner { background: linear-gradient(rgba(0,0,0,0.6), rgba(0,0,0,0.7)), url('正修大門照片.jpg'); background-size: cover; background-position: center; min-height: calc(100vh - var(--nav-height)); display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center; color: white; padding: 40px 20px; }
+        .hero-banner { background: linear-gradient(rgba(0,0,0,0.6), rgba(0,0,0,0.7)), url('正修大門照片.jpg'); background-size: cover; background-position: center; min-height: 90vh; display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center; color: white; padding: 40px 20px; }
         .hero-banner h1 { font-size: 3rem; margin-bottom: 10px; }
         .hero-banner h2 { font-size: 1.8rem; color: var(--accent); margin-bottom: 30px; }
         .intro-box { background: rgba(0, 0, 0, 0.6); padding: 30px; border-radius: 8px; max-width: 800px; margin-bottom: 30px; border-left: 5px solid var(--primary); text-align: left; }
@@ -237,42 +288,49 @@
         }
     </style>
 </head>
-<body>
+<body onload="initApp()">
 
     <nav>
         <div class="logo" onclick="showPage('home')">
-            <i class="fas fa-shield-alt"></i> 正修防災應變網
+            <i class="fas fa-shield-alt"></i> <span data-zh="正修防災應變網" data-en="CSU Safety Network">正修防災應變網</span>
         </div>
         <div class="menu" id="navMenu">
-            <a class="nav-btn active" onclick="showPage('home')">主頁</a>
-            <a class="nav-btn" onclick="showPage('map')">災害地圖</a>
-            <a class="nav-btn" onclick="showPage('response')">應變流程</a>
-            <a class="nav-btn" onclick="showPage('facilities')">校園設施</a>
-            <a class="nav-btn" onclick="showPage('improvements')">改善方向</a>
-            <a class="nav-btn" onclick="showPage('about')">關於</a>
-            <a class="nav-btn admin-btn" onclick="showPage('admin-login')"><i class="fas fa-user-lock"></i> 管理者</a>
-            <a class="nav-btn report-btn" onclick="showPage('report')"><i class="fas fa-exclamation-circle"></i> 災害回報</a>
+            <a class="nav-btn active" onclick="showPage('home')" data-zh="主頁" data-en="Home">主頁</a>
+            <a class="nav-btn" onclick="showPage('map')" data-zh="災害地圖" data-en="Risk Map">災害地圖</a>
+            <a class="nav-btn" onclick="showPage('response')" data-zh="應變流程" data-en="Response">應變流程</a>
+            <a class="nav-btn" onclick="showPage('facilities')" data-zh="校園設施" data-en="Facilities">校園設施</a>
+            <a class="nav-btn" onclick="showPage('improvements')" data-zh="改善方向" data-en="Plan">改善方向</a>
+            <a class="nav-btn" onclick="showPage('about')" data-zh="關於" data-en="About">關於</a>
+            <a class="nav-btn admin-btn" onclick="showPage('admin-login')"><i class="fas fa-user-lock"></i> <span data-zh="管理者" data-en="Admin">管理者</span></a>
+            <a class="nav-btn report-btn" onclick="showPage('report')"><i class="fas fa-exclamation-circle"></i> <span data-zh="災害回報" data-en="Report">災害回報</span></a>
+            <button class="lang-switch" onclick="toggleLang()">EN / 中</button>
         </div>
         <div class="mobile-toggle" onclick="toggleMenu()">
             <i class="fas fa-bars"></i>
         </div>
     </nav>
 
+    <div class="marquee-container">
+        <div class="marquee-text" id="marquee-content">
+            📢 歡迎使用正修防災應變資訊網。若發現緊急狀況，請立即聯絡校安中心或撥打 119。 | ⚠️ 提醒：雨天路滑，經過宿舍階梯時請小心慢行。 | 📍 本網站僅提供避難資訊參考，具體指揮請聽從校內廣播人員。
+        </div>
+    </div>
+
     <section id="home" class="page-section active">
         <div class="hero-banner">
-            <h1>正修科技大學<br>災難應變資訊網</h1>
-            <h2>應急避難指南</h2>
+            <h1 data-zh="正修科技大學<br>災難應變資訊網" data-en="CSU Disaster Response Network">正修科技大學<br>災難應變資訊網</h1>
+            <h2 data-zh="應急避難指南" data-en="Emergency Guide">應急避難指南</h2>
             <div class="intro-box">
                 <p>近年來，極端氣候事件在台灣愈加頻繁，強降雨、淹水、颱風與地震都可能在短時間內造成校園內外的環境破壞與學生安全風險。</p>
                 <p>在過去幾次災害中，我們調查到校園雖具備基本的應變流程，實際狀況有待改進。於是做此調查，作為給學校建議，與正確逃生之學習。</p>
             </div>
-            <a onclick="showPage('map')" class="cta-btn">立即查看風險地圖 <i class="fas fa-arrow-right"></i></a>
+            <a onclick="showPage('map')" class="cta-btn" data-zh="立即查看風險地圖" data-en="View Risk Map">立即查看風險地圖 <i class="fas fa-arrow-right"></i></a>
         </div>
     </section>
 
     <section id="report" class="page-section">
         <h2 style="text-align: center; margin-bottom: 20px; font-size: 2rem; color: var(--primary);">
-            <i class="fas fa-bullhorn"></i> 校園災害即時回報
+            <i class="fas fa-bullhorn"></i> <span data-zh="校園災害即時回報" data-en="Campus Disaster Reporting">校園災害即時回報</span>
         </h2>
         <p style="text-align: center; margin-bottom: 40px;">若您發現校園內有積水、路面損壞或其他危險情況，請立即填寫下方表單回報。</p>
 
@@ -328,7 +386,7 @@
 
     <section id="admin-login" class="page-section">
         <div class="login-box">
-            <h2><i class="fas fa-user-shield"></i> 管理者登入</h2>
+            <h2><i class="fas fa-user-shield"></i> <span data-zh="管理者登入" data-en="Admin Login">管理者登入</span></h2>
             <form onsubmit="adminLogin(event)">
                 <div class="form-group">
                     <input type="text" id="admin_user" placeholder="帳號 (admin)" required>
@@ -342,33 +400,43 @@
     </section>
 
     <section id="admin-dashboard" class="page-section">
-        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
-            <h2><i class="fas fa-list-alt"></i> 災害通報紀錄表</h2>
-            <button onclick="logout()" style="padding: 8px 15px; background: #666; color: white; border: none; border-radius: 4px; cursor: pointer;">登出</button>
+        <div class="admin-dashboard-container" style="background: white; padding: 30px; border-radius: 10px; box-shadow: 0 5px 20px rgba(0,0,0,0.05);">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
+                <h2><i class="fas fa-list-alt"></i> 災害通報紀錄表</h2>
+                <button onclick="logout()" style="padding: 8px 15px; background: #666; color: white; border: none; border-radius: 4px; cursor: pointer;">登出</button>
+            </div>
+            
+            <div style="background:#eee; padding:15px; margin:20px 0; border-radius:8px;">
+                <label><strong>📢 修改即時公告：</strong></label>
+                <div style="display: flex; gap: 10px; margin-top: 10px;">
+                    <input type="text" id="marquee-input" style="flex:1; padding:8px;" placeholder="輸入新的公告內容...">
+                    <button onclick="updateMarquee()" style="padding:8px 15px; background:var(--primary); color:white; border:none; cursor:pointer; border-radius:4px;">更新</button>
+                </div>
+            </div>
+            
+            <div style="overflow-x: auto;">
+                <table class="admin-table">
+                    <thead>
+                        <tr>
+                            <th>時間</th>
+                            <th>嚴重度</th>
+                            <th>地點</th>
+                            <th>通報人</th>
+                            <th>電話</th>
+                            <th>照片</th>
+                            <th>操作</th>
+                        </tr>
+                    </thead>
+                    <tbody id="report-list">
+                        </tbody>
+                </table>
+            </div>
+            <p style="text-align: center; margin-top: 20px; color: #888;" id="no-data-msg">目前尚無通報資料。</p>
         </div>
-        
-        <div style="overflow-x: auto;">
-            <table class="admin-table">
-                <thead>
-                    <tr>
-                        <th>時間</th>
-                        <th>嚴重度</th>
-                        <th>地點</th>
-                        <th>通報人</th>
-                        <th>電話</th>
-                        <th>照片</th>
-                        <th>操作</th>
-                    </tr>
-                </thead>
-                <tbody id="report-list">
-                    </tbody>
-            </table>
-        </div>
-        <p style="text-align: center; margin-top: 20px; color: #888;" id="no-data-msg">目前尚無通報資料。</p>
     </section>
 
     <section id="map" class="page-section">
-        <h2 style="text-align: center; margin-bottom: 40px; color: var(--secondary); font-size: 2rem;">校園災害風險地圖</h2>
+        <h2 style="text-align: center; margin-bottom: 40px; color: var(--secondary); font-size: 2rem;" data-zh="校園災害風險地圖" data-en="Campus Risk Map">校園災害風險地圖</h2>
         <div class="map-iframe-container">
             <iframe src="https://www.google.com/maps/d/u/0/embed?mid=1e7YNipNQYmx3FDdRpsJDjtQtBoiJRlo&ehbc=2E312F" width="100%" height="480" style="border:0; max-width: 900px; border-radius: 10px; box-shadow: 0 4px 15px rgba(0,0,0,0.1);"></iframe>
         </div>
@@ -382,7 +450,7 @@
     </section>
 
     <section id="response" class="page-section">
-        <h2 style="text-align: center; margin-bottom: 20px; font-size: 2rem;">災難緊急應變流程</h2>
+        <h2 style="text-align: center; margin-bottom: 20px; font-size: 2rem;" data-zh="災難緊急應變流程" data-en="Emergency Response">災難緊急應變流程</h2>
         <p style="text-align: center; margin-bottom: 50px;">當災難發生時，按照以下步驟有序應變，可以最大程度保護自己和他人的生命安全。</p>
         <div class="timeline-wrapper">
             <div class="timeline-step urgent"><span class="step-time">災害發生 (0分鐘) - 立即</span><div class="step-content"><h3>保持冷靜與評估</h3><ul><li><strong>保持冷靜：</strong>不要驚慌失措，深呼吸，準備應變。</li><li><strong>聽取廣播：</strong>校園廣播系統會發布應變指令。</li><li><strong>評估環境：</strong>確認是否有立即危險。</li></ul></div></div>
@@ -401,7 +469,7 @@
     </section>
 
     <section id="facilities" class="page-section">
-        <h2 style="text-align: center; margin-bottom: 20px; font-size: 2rem;">校園設施介紹</h2>
+        <h2 style="text-align: center; margin-bottom: 20px; font-size: 2rem;" data-zh="校園設施介紹" data-en="Campus Facilities">校園設施介紹</h2>
         <p style="text-align: center; margin-bottom: 40px; color: #666;">了解校園內的避難設施與應急設備，確保在緊急情況下能夠快速找到安全地點。</p>
         <div class="facilities-grid">
             <div class="facility-card main"><div class="facility-header"><h3>勞工公園 (鳥松區)</h3><span class="facility-tag">主要避難集合點</span></div><div class="facility-body"><div class="info-block"><h4>基本訊息</h4><ul class="info-list"><li><i class="fas fa-ruler-combined"></i> 面積：54,696 平方公尺</li><li><i class="fas fa-users"></i> 容納：3,295 人</li><li><i class="fas fa-map-marker-alt"></i> 位置：校園西側 (約300m)</li></ul></div><div><strong><i class="fas fa-concierge-bell"></i> 設施配置：</strong><div class="feature-list"><span class="feature-item"><i class="fas fa-check"></i>開闊平地</span><span class="feature-item"><i class="fas fa-check"></i>飲用水設施</span><span class="feature-item"><i class="fas fa-check"></i>照明設備</span><span class="feature-item"><i class="fas fa-check"></i>廁所設施</span></div></div><div class="route-box"><strong><i class="fas fa-route"></i> 疏散路線：</strong><br>從校園西門出發，沿著指示標誌前往公園。</div></div></div>
@@ -412,7 +480,7 @@
     </section>
 
     <section id="improvements" class="page-section">
-        <h2 style="text-align: center; margin-bottom: 40px; font-size: 2rem;">未來改善計畫</h2>
+        <h2 style="text-align: center; margin-bottom: 40px; font-size: 2rem;" data-zh="未來改善計畫" data-en="Improvement Plans">未來改善計畫</h2>
         <p>針對調查結果，我們提出分階段的改善計畫，期望能逐步提升校園防災韌性。</p>
         <div class="improve-cols">
             <div class="improve-item short"><h3><i class="fas fa-hourglass-start"></i> 短期計畫 (1-6 個月)</h3><div class="plan-block"><h4>更新應急預案</h4><ul><li>根據最新法規更新校園應急預案</li><li>完善各部門應急職責分工</li><li>建立應急聯絡機制與通訊錄</li><li>制定應急物資儲備清單</li></ul></div><div class="plan-block"><h4>加強應急標識</h4><ul><li>增加疏散標示與逃生路線圖</li><li>更新集合點標識與說明</li><li>安裝應急照明與警示燈</li><li>繪製校園應急地圖</li></ul></div><div class="plan-block"><h4>增加應急物資</h4><ul><li>購置應急醫療包與急救用品</li><li>儲備應急飲用水與食品</li><li>配置手電筒、電池、毛毯等物資</li><li>建立應急物資儲備室</li></ul></div><div class="plan-block"><h4>定期檢查設施</h4><ul><li>每月檢查消防設備與滅火器</li><li>每季度檢查應急照明系統</li><li>每半年檢查疏散標識與出口</li><li>建立設施檢查記錄表</li></ul></div></div>
@@ -423,19 +491,19 @@
     </section>
 
     <section id="about" class="page-section">
-        <h2 style="text-align: center; margin-bottom: 40px; font-size: 2rem;">關於本網站</h2>
+        <h2 style="text-align: center; margin-bottom: 40px; font-size: 2rem;" data-zh="關於本網站" data-en="About Us">關於本網站</h2>
         <div class="about-grid">
             <div class="about-content">
                 
                 <a href="基地調查-正修及周邊環境相關避難與應變.pdf" download class="download-btn"><i class="fas fa-file-pdf"></i> 下載完整調查報告 (PDF)</a>
 
-                <h3>網站目的</h3>
+                <h3 data-zh="網站目的" data-en="Purpose">網站目的</h3>
                 <p>本網站為正修科技大學設計，旨在提供校園師生與訪客完整的防災資訊、應變措施與安全指南。通過了解校園周邊的災害風險、應變流程與設施位置，我們能夠在緊急情況下做出正確的決定，保護自己和他人的生命安全。</p>
 
-                <h3>建立人</h3>
+                <h3 data-zh="建立人" data-en="Creators">建立人</h3>
                 <p>王子銓、廖和風</p>
 
-                <h3>資料來源</h3>
+                <h3 data-zh="資料來源" data-en="Sources">資料來源</h3>
                 <ul class="about-list">
                     <li>正修官網。</li>
                     <li>進修部 108 學年度第 2 學期第 4 次班會專題討論內容摘要 「校園安全專題」。</li>
@@ -444,7 +512,7 @@
                     <li>校內「防災演練計畫書」。</li>
                 </ul>
 
-                <h3>更新時間</h3>
+                <h3 data-zh="更新時間" data-en="Updated">更新時間</h3>
                 <p>最後更新：2026 年 1 月</p>
                 <p style="font-size: 0.9rem; color: #666; margin-top: 20px;"><strong>隱私權聲明：</strong>本網站尊重用戶隱私。我們不會收集個人識別資訊，除非您主動提供。<br><strong>免責聲明：</strong>本網站提供的資訊僅供參考，不構成法律建議或專業建議。在緊急情況下，請立即撥打 119（消防）或 110（警察）。</p>
             </div>
@@ -460,27 +528,27 @@
     <footer>
         <div class="footer-content">
             <div class="footer-col">
-                <h4>快速導覽</h4>
+                <h4 data-zh="快速導覽" data-en="Quick Links">快速導覽</h4>
                 <ul>
-                    <li><a onclick="showPage('map')">災害地圖</a></li>
-                    <li><a onclick="showPage('response')">應變流程</a></li>
-                    <li><a onclick="showPage('facilities')">校園設施</a></li>
-                    <li><a onclick="showPage('improvements')">改善方向</a></li>
+                    <li><a onclick="showPage('map')" data-zh="災害地圖" data-en="Risk Map">災害地圖</a></li>
+                    <li><a onclick="showPage('response')" data-zh="應變流程" data-en="Response">應變流程</a></li>
+                    <li><a onclick="showPage('facilities')" data-zh="校園設施" data-en="Facilities">校園設施</a></li>
+                    <li><a onclick="showPage('improvements')" data-zh="改善方向" data-en="Plan">改善方向</a></li>
                     <li><a onclick="showPage('home')" class="home-btn"><i class="fas fa-home"></i> 返回首頁</a></li>
                 </ul>
             </div>
             <div class="footer-col">
-                <h4>聯絡資訊</h4>
+                <h4 data-zh="聯絡資訊" data-en="Contact">聯絡資訊</h4>
                 <p><i class="fas fa-phone-alt"></i> 正修校安中心：<br>07-731-2787<br>0978-500-795</p>
                 <p><i class="fas fa-ambulance"></i> 緊急求助：119 / 110</p>
             </div>
             <div class="footer-col">
-                <h4>網站製作</h4>
+                <h4 data-zh="網站製作" data-en="Credits">網站製作</h4>
                 <p>建立人：王子銓、廖和風</p>
                 <p>指導老師：鄭安祐</p>
             </div>
             <div class="footer-col">
-                <h4>隱私與聲明</h4>
+                <h4 data-zh="隱私與聲明" data-en="Privacy">隱私與聲明</h4>
                 <p style="font-size: 0.8rem; line-height: 1.4;">本網站尊重用戶隱私，不收集個人識別資訊。提供的資訊僅供參考，緊急情況請直接撥打 119。</p>
             </div>
         </div>
@@ -490,7 +558,23 @@
     </footer>
 
     <script>
-        // 1. 分頁切換
+        // 1. 初始化
+        function initApp() {
+            // 從 LocalStorage 載入自定義跑馬燈
+            const savedMarquee = localStorage.getItem('customMarquee');
+            if(savedMarquee) document.getElementById('marquee-content').innerText = savedMarquee;
+        }
+
+        // 2. 語言切換邏輯
+        let currentLang = 'zh';
+        function toggleLang() {
+            currentLang = currentLang === 'zh' ? 'en' : 'zh';
+            document.querySelectorAll('[data-zh]').forEach(el => {
+                el.innerText = el.getAttribute('data-' + currentLang);
+            });
+        }
+
+        // 3. 分頁切換
         function showPage(pageId) {
             const sections = document.querySelectorAll('.page-section');
             sections.forEach(section => {
@@ -524,7 +608,7 @@
             menu.classList.toggle('active');
         }
 
-        // 2. 表單互動：電話輸入時，姓名變必填
+        // 4. 表單互動：電話輸入時，姓名變必填
         function checkPhoneRequirement() {
             const phone = document.getElementById('r_phone').value;
             const nameInput = document.getElementById('r_name');
@@ -542,7 +626,7 @@
             }
         }
 
-        // 3. 照片預覽功能
+        // 5. 照片預覽功能
         function previewImage(input) {
             const preview = document.getElementById('img-preview');
             if (input.files && input.files[0]) {
@@ -557,7 +641,7 @@
             }
         }
 
-        // 4. 提交回報 (存入 LocalStorage)
+        // 6. 提交回報 (存入 LocalStorage)
         function submitReport(e) {
             e.preventDefault();
             
@@ -607,7 +691,7 @@
             showPage('home'); // 回首頁
         }
 
-        // 5. 管理者登入
+        // 7. 管理者登入
         function adminLogin(e) {
             e.preventDefault();
             const u = document.getElementById('admin_user').value;
@@ -623,7 +707,7 @@
             }
         }
 
-        // 6. 讀取回報資料 (後台)
+        // 8. 讀取回報資料 (後台)
         function loadReports() {
             const list = document.getElementById('report-list');
             const reports = JSON.parse(localStorage.getItem('disasterReports')) || [];
@@ -663,7 +747,7 @@
             });
         }
 
-        // 7. 刪除回報 (新增功能)
+        // 9. 刪除回報 (新增功能)
         function deleteReport(index) {
             if(confirm('確定要刪除這筆回報紀錄嗎？此動作無法復原。')) {
                 let reports = JSON.parse(localStorage.getItem('disasterReports')) || [];
@@ -671,6 +755,19 @@
                 localStorage.setItem('disasterReports', JSON.stringify(reports)); // 存回
                 loadReports(); // 重新整理表格
                 alert('已刪除該筆資料。');
+            }
+        }
+
+        // 10. 管理者更新跑馬燈
+        function updateMarquee() {
+            const val = document.getElementById('marquee-input').value;
+            if(val) {
+                localStorage.setItem('customMarquee', val);
+                document.getElementById('marquee-content').innerText = val;
+                alert('公告已更新！');
+                document.getElementById('marquee-input').value = '';
+            } else {
+                alert('請輸入公告內容');
             }
         }
 
