@@ -534,139 +534,176 @@
         </div>
     </footer>
 
-    <script>
-        // 初始化
-        function initApp() {
-            const savedMarquee = localStorage.getItem('customMarquee');
-            if(savedMarquee) document.getElementById('marquee-content').innerText = savedMarquee;
-        }
+    <script type="module">
+    // 1. 引入 Firebase SDK
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
+    import { getFirestore, collection, addDoc, onSnapshot, query, orderBy, deleteDoc, doc } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
 
-        // 語言切換邏輯 (升級版)
-        let currentLang = 'zh';
-        function toggleLang() {
-            currentLang = currentLang === 'zh' ? 'en' : 'zh';
-            
-            // 1. 替換一般文字
-            document.querySelectorAll('[data-zh]').forEach(el => {
-                el.innerHTML = el.getAttribute('data-' + currentLang);
-            });
+    // ===========================================================
+    // 2. ⚠️ 請把您剛剛在「專案設定」複製的那段 config 貼在這裡 ⚠️
+    //    覆蓋掉下面這段範例
+    const firebaseConfig = {
+  	apiKey: "AIzaSyCMdWO2uft4dztmj_y0ijtjL1GjqUM_Xfs",
+  	authDomain: "csu-safety.firebaseapp.com",
+  	projectId: "csu-safety",
+  	storageBucket: "csu-safety.firebasestorage.app",
+  	messagingSenderId: "665788616647",
+  	appId: "1:665788616647:web:efa256edaac5387dfbd3e2",
+  	measurementId: "G-JHQ8YGGKS0"
+    };
+    };
+    // ===========================================================
 
-            // 2. 替換輸入框提示 (Placeholder)
-            document.querySelectorAll('[data-zh-ph]').forEach(el => {
-                el.placeholder = el.getAttribute('data-' + currentLang + '-ph');
-            });
-        }
+    // 3. 初始化 Firebase
+    const app = initializeApp(firebaseConfig);
+    const db = getFirestore(app);
 
-        // 分頁切換
-        function showPage(pageId) {
-            document.querySelectorAll('.page-section').forEach(s => s.classList.remove('active'));
-            document.getElementById(pageId).classList.add('active');
-            window.scrollTo(0, 0);
-            document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
-            const btn = document.querySelector(`.nav-btn[onclick*="${pageId}"]`);
-            if(btn) btn.classList.add('active');
-            // 手機版自動收合
-            const menu = document.getElementById('navMenu');
-            if(menu.classList.contains('active')) menu.classList.remove('active');
-        }
+    // --- 以下網站功能全自動化 (不需修改) ---
 
-        function toggleMenu() { document.getElementById('navMenu').classList.toggle('active'); }
+    window.initApp = function() {
+        const savedMarquee = localStorage.getItem('customMarquee');
+        if(savedMarquee) document.getElementById('marquee-content').innerText = savedMarquee;
+    }
 
-        function checkPhoneRequirement() {
-            const ph = document.getElementById('r_phone').value;
-            const nm = document.getElementById('r_name');
-            const star = document.getElementById('name-star');
-            if(ph.length > 0) { nm.required = true; star.style.display = 'inline'; } 
-            else { nm.required = false; star.style.display = 'none'; }
-        }
+    let currentLang = 'zh';
+    window.toggleLang = function() {
+        currentLang = currentLang === 'zh' ? 'en' : 'zh';
+        document.querySelectorAll('[data-zh]').forEach(el => {
+            el.innerHTML = el.getAttribute('data-' + currentLang);
+        });
+        document.querySelectorAll('[data-zh-ph]').forEach(el => {
+            el.placeholder = el.getAttribute('data-' + currentLang + '-ph');
+        });
+    }
 
-        function previewImage(input) {
-            const preview = document.getElementById('img-preview');
-            if (input.files && input.files[0]) {
-                const reader = new FileReader();
-                reader.onload = function(e) { preview.src = e.target.result; preview.style.display = 'block'; }
-                reader.readAsDataURL(input.files[0]);
-            } else { preview.style.display = 'none'; }
-        }
+    window.showPage = function(pageId) {
+        document.querySelectorAll('.page-section').forEach(s => s.classList.remove('active'));
+        document.getElementById(pageId).classList.add('active');
+        window.scrollTo(0, 0);
+        document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
+        const btn = document.querySelector(`.nav-btn[onclick*="${pageId}"]`);
+        if(btn) btn.classList.add('active');
+        const menu = document.getElementById('navMenu');
+        if(menu.classList.contains('active')) menu.classList.remove('active');
+    }
 
-        function submitReport(e) {
-            e.preventDefault();
-            const location = document.getElementById('r_location').value;
-            const severity = document.getElementById('r_severity').value;
-            const phone = document.getElementById('r_phone').value;
-            const name = document.getElementById('r_name').value;
-            const title = document.getElementById('r_title').value;
-            const photoInput = document.getElementById('r_photo');
-            
-            const processSave = (photoData) => {
-                const newReport = {
-                    time: new Date().toLocaleString(),
-                    location: location,
-                    severity: severity,
-                    phone: phone,
-                    name: name ? `${name}${title}` : (currentLang === 'zh' ? "匿名" : "Anonymous"),
-                    photo: photoData
-                };
-                let reports = JSON.parse(localStorage.getItem('disasterReports')) || [];
-                reports.unshift(newReport);
-                localStorage.setItem('disasterReports', JSON.stringify(reports));
-                alert(currentLang === 'zh' ? '✅ 回報成功！' : '✅ Report Submitted!');
+    window.toggleMenu = function() {
+        document.getElementById('navMenu').classList.toggle('active');
+    }
+
+    window.checkPhoneRequirement = function() {
+        const ph = document.getElementById('r_phone').value;
+        const nm = document.getElementById('r_name');
+        const star = document.getElementById('name-star');
+        if(ph.length > 0) { nm.required = true; star.style.display = 'inline'; } 
+        else { nm.required = false; star.style.display = 'none'; }
+    }
+
+    window.previewImage = function(input) {
+        const preview = document.getElementById('img-preview');
+        if (input.files && input.files[0]) {
+            const reader = new FileReader();
+            reader.onload = function(e) { preview.src = e.target.result; preview.style.display = 'block'; }
+            reader.readAsDataURL(input.files[0]);
+        } else { preview.style.display = 'none'; }
+    }
+
+    // 🔥 雲端回報核心
+    window.submitReport = async function(e) {
+        e.preventDefault();
+        const photoInput = document.getElementById('r_photo');
+        
+        const saveData = async (pic) => {
+            const newReport = {
+                time: new Date().toLocaleString(),
+                location: document.getElementById('r_location').value,
+                severity: document.getElementById('r_severity').value,
+                phone: document.getElementById('r_phone').value,
+                name: document.getElementById('r_name').value ? 
+                      document.getElementById('r_name').value + document.getElementById('r_title').value : 
+                      (currentLang === 'zh' ? "匿名" : "Anonymous"),
+                photo: pic,
+                timestamp: Date.now()
+            };
+
+            try {
+                await addDoc(collection(db, "reports"), newReport);
+                alert(currentLang === 'zh' ? '✅ 回報成功！資料已同步至雲端。' : '✅ Report Submitted to Cloud!');
                 document.getElementById('disasterForm').reset();
                 document.getElementById('img-preview').style.display = 'none';
                 showPage('home');
-            };
+            } catch (error) {
+                console.error("Error adding document: ", error);
+                alert('上傳失敗 (Upload Failed)：' + error.message);
+            }
+        };
 
-            if (photoInput.files && photoInput.files[0]) {
-                const reader = new FileReader();
-                reader.onload = function(evt) { processSave(evt.target.result); };
-                reader.readAsDataURL(photoInput.files[0]);
-            } else { processSave(""); }
-        }
+        if (photoInput.files && photoInput.files[0]) {
+            const reader = new FileReader();
+            reader.onload = (evt) => saveData(evt.target.result);
+            reader.readAsDataURL(photoInput.files[0]);
+        } else { saveData(""); }
+    }
 
-        function adminLogin(e) {
-            e.preventDefault();
-            if(document.getElementById('admin_user').value === 'admin' && document.getElementById('admin_pass').value === '1234') {
-                renderAdminTable();
-                showPage('admin-dashboard');
-                document.getElementById('admin_user').value = '';
-                document.getElementById('admin_pass').value = '';
-            } else { alert(currentLang === 'zh' ? '❌ 帳號密碼錯誤' : '❌ Invalid Credentials'); }
-        }
+    // 🔥 管理者登入與即時監聽
+    window.adminLogin = function(e) {
+        e.preventDefault();
+        if(document.getElementById('admin_user').value === 'admin' && document.getElementById('admin_pass').value === '1234') {
+            startListening();
+            showPage('admin-dashboard');
+            document.getElementById('admin_user').value = '';
+            document.getElementById('admin_pass').value = '';
+        } else { alert(currentLang === 'zh' ? '❌ 帳號密碼錯誤' : '❌ Invalid Credentials'); }
+    }
 
-        function renderAdminTable() {
+    let unsubscribe;
+    function startListening() {
+        if(unsubscribe) unsubscribe();
+        // 監聽 reports 集合，按時間倒序排列
+        const q = query(collection(db, "reports"), orderBy("timestamp", "desc"));
+        unsubscribe = onSnapshot(q, (snapshot) => {
             const list = document.getElementById('report-list');
-            const reports = JSON.parse(localStorage.getItem('disasterReports')) || [];
             const noData = document.getElementById('no-data-msg');
             list.innerHTML = "";
-            noData.style.display = reports.length === 0 ? 'block' : 'none';
+            noData.style.display = snapshot.empty ? 'block' : 'none';
 
-            reports.forEach((r, i) => {
+            snapshot.forEach((docSnap) => {
+                const r = docSnap.data();
                 const photoHtml = r.photo ? `<img src="${r.photo}" class="admin-photo" onclick="window.open(this.src)">` : (currentLang === 'zh' ? '無' : 'None');
                 const delText = currentLang === 'zh' ? '刪除' : 'Delete';
-                list.innerHTML += `<tr><td>${r.time}</td><td>${r.severity}</td><td>${r.location}</td><td>${r.name}</td><td>${r.phone||'-'}</td><td>${photoHtml}</td><td><button class="delete-btn" onclick="deleteReport(${i})">${delText}</button></td></tr>`;
+                
+                list.innerHTML += `<tr>
+                    <td>${r.time}</td>
+                    <td>${r.severity}</td>
+                    <td>${r.location}</td>
+                    <td>${r.name}</td>
+                    <td>${r.phone || '-'}</td>
+                    <td>${photoHtml}</td>
+                    <td><button class="delete-btn" onclick="deleteReport('${docSnap.id}')">${delText}</button></td>
+                </tr>`;
             });
-        }
+        });
+    }
 
-        function deleteReport(index) {
-            if(confirm(currentLang === 'zh' ? '確定刪除此筆資料？' : 'Delete this report?')) {
-                let reports = JSON.parse(localStorage.getItem('disasterReports'));
-                reports.splice(index, 1);
-                localStorage.setItem('disasterReports', JSON.stringify(reports));
-                renderAdminTable();
-            }
+    // 🔥 刪除雲端資料
+    window.deleteReport = async function(docId) {
+        if(confirm(currentLang === 'zh' ? '確定從雲端資料庫永久刪除？' : 'Delete from cloud database?')) {
+            try { await deleteDoc(doc(db, "reports", docId)); } 
+            catch (error) { alert('刪除失敗：' + error.message); }
         }
+    }
 
-        function updateMarquee() {
-            const val = document.getElementById('marquee-input').value;
-            if(val) {
-                localStorage.setItem('customMarquee', val);
-                document.getElementById('marquee-content').innerText = val;
-                alert(currentLang === 'zh' ? '公告已更新' : 'Marquee Updated');
-                document.getElementById('marquee-input').value = '';
-            }
+    window.updateMarquee = function() {
+        const val = document.getElementById('marquee-input').value;
+        if(val) {
+            localStorage.setItem('customMarquee', val);
+            document.getElementById('marquee-content').innerText = val;
+            alert(currentLang === 'zh' ? '公告已更新' : 'Marquee Updated');
+            document.getElementById('marquee-input').value = '';
         }
+    }
 
-        function logout() { showPage('home'); }
-    </script>
+    window.logout = function() { showPage('home'); }
+</script>
 </body>
 </html>
